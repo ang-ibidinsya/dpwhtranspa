@@ -1,0 +1,23 @@
+@media (max-width: 430px) {
+  /* Mobile styles here */
+  .appIcon {
+    width: 32px;
+    height: 28px;
+    margin-right: 10px;
+  }
+  
+  .mainTitle {
+    font-weight: 600;
+    margin-right: 0px;
+    font-size: 1.18rem;
+  }
+  
+  .subtitle {
+    margin-left: 0px;
+    font-size: 1.0rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 2px;
+  }  
+}

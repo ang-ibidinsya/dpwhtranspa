@@ -1,0 +1,39 @@
+.appHeader {
+    /* position: sticky; */
+    top: 0;
+    z-index: 999;
+    background-color: #8aa29356;
+    padding: 3px;
+    border-radius: 0px;
+    width: 100%;
+  }
+  
+  .titleLine {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+@media (min-width: 430px) {
+  /* Desktop styles here */
+  .appIcon {
+    width: 45px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .mainTitle {
+    font-weight: 600;
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .subtitle {
+    margin-right: 10px;
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }  
+}
