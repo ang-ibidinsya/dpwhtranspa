@@ -382,7 +382,7 @@ export const Settings = () => {
     {/* Gouping */}
     <div className="groupForm">
             <div className="groupLabel">
-               🍱 View By / Grouping
+               📊 View By / Grouping
             </div>
         </div>
         {createGroupingFields()}

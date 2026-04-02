@@ -2,6 +2,69 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Fuse from 'fuse.js';
 import {fuseSearch} from './fuseSearch';
 
+const satisfiesFilter = (currData, filters) => {
+    if (!filters) {
+        return true;
+    }
+
+    // [1] year
+    if (filters.Year?.length > 0 && !filters.Year.includes(currData.y)) {
+        return false;
+    }
+    // [2] Region
+    if (filters.Region?.length > 0 && !filters.Region.includes(currData.r)) {
+        return false;
+    }
+    // [3] District
+    if (filters.District?.length > 0 && !filters.District.includes(currData.dt)) {
+        return false;
+    }
+    // [4] Item Name (case insensitive)
+    // Orig Simple search
+    if (filters.Project && filters.ProjectSearchOption === 'searchExact' 
+        && currData.d.toUpperCase().indexOf(filters.Project.toUpperCase()) < 0) {
+        return false;
+    }
+
+    // [5] Status
+    if (filters.Status?.length > 0 && !filters.Status.includes(currData.s)) {
+        return false;
+    }
+
+    // [6] Fund Source
+    if (filters.FundSource?.length > 0 && !filters.FundSource.includes(currData.sf)) {
+        return false;
+    }
+
+    // [7] Contractor
+    if (filters.Contractor?.length > 0) {
+        let currCtorsList = currData.ci;
+        let ret = filters.Contractor.some(filter => currCtorsList.includes(filter));
+        if (ret === false) {
+            return ret;
+        }
+    }
+
+    // [8] Category
+    if (filters.Category?.length > 0 && !filters.Category.includes(currData.cg)) {
+        return false;
+    }
+
+    // [9] Contract Id    
+    if (filters.ContractId && currData.id.toUpperCase().indexOf(filters.ContractId.toUpperCase()) < 0) {
+        return false;
+    }
+
+    // [10] Joint Ventures
+    if (filters.JointVentures === 'solo' && currData.ci?.length > 1) {        
+        return false;
+    }
+    if (filters.JointVentures === 'jointOnly' && currData.ci?.length < 2) {        
+        return false;
+    }
+
+    return true;
+}
 
 const mapAndFilterData = (data, filters) => {
     let mapYearGroups = {};
@@ -64,12 +127,12 @@ const mapAndFilterData = (data, filters) => {
     // use for instead of forEach
     for (let i = 0; i < preFilteredData.length; i++) {        
         let currData = preFilteredData[i];
-        let currYear = currData.yr;
-        let currRegion = currData.rgn;
-        let currDistrict = currData.dst;
-        let currFundSource = currData.src;
-        let currContractorList = currData.ctr;
-        let currCategory = currData.cat;
+        let currYear = currData.y;
+        let currRegion = currData.r;
+        let currDistrict = currData.dt;
+        let currFundSource = currData.sf;
+        let currContractorList = currData.ci;
+        let currCategory = currData.cg;
 
         let bSatisfiesFilter = satisfiesFilter(currData, filters);
 
@@ -187,31 +250,31 @@ const mapAndFilterData = (data, filters) => {
             unFilteredCategoryMap[currCategory].subtotal += currData.p;
 
             mapYearGroups[currYear].subtotal += currData.p;
-            mapYearGroups[currYear].statusSubTotals[currData.sts] = (mapYearGroups[currYear].statusSubTotals[currData.sts] || 0 ) + currData.p;
+            mapYearGroups[currYear].statusSubTotals[currData.s] = (mapYearGroups[currYear].statusSubTotals[currData.s] || 0 ) + currData.p;
 
             mapRegionGroups[currRegion].subtotal += currData.p;
-            mapRegionGroups[currRegion].yearSubTotals[currData.yr] = (mapRegionGroups[currRegion].yearSubTotals[currData.yr] || 0 ) + currData.p;
-            mapRegionGroups[currRegion].statusSubTotals[currData.sts] = (mapRegionGroups[currRegion].statusSubTotals[currData.sts] || 0 ) + currData.p;
+            mapRegionGroups[currRegion].yearSubTotals[currData.y] = (mapRegionGroups[currRegion].yearSubTotals[currData.y] || 0 ) + currData.p;
+            mapRegionGroups[currRegion].statusSubTotals[currData.s] = (mapRegionGroups[currRegion].statusSubTotals[currData.s] || 0 ) + currData.p;
 
             mapDistrictGroups[currDistrict].subtotal += currData.p;
-            mapDistrictGroups[currDistrict].yearSubTotals[currData.yr] = (mapDistrictGroups[currDistrict].yearSubTotals[currData.yr] || 0 ) + currData.p;
-            mapDistrictGroups[currDistrict].statusSubTotals[currData.sts] = (mapDistrictGroups[currDistrict].statusSubTotals[currData.sts] || 0 ) + currData.p;
+            mapDistrictGroups[currDistrict].yearSubTotals[currData.y] = (mapDistrictGroups[currDistrict].yearSubTotals[currData.y] || 0 ) + currData.p;
+            mapDistrictGroups[currDistrict].statusSubTotals[currData.s] = (mapDistrictGroups[currDistrict].statusSubTotals[currData.s] || 0 ) + currData.p;
 
             mapFundSourceGroups[currFundSource].subtotal += currData.p;
-            mapFundSourceGroups[currFundSource].yearSubTotals[currData.yr] = (mapFundSourceGroups[currFundSource].yearSubTotals[currData.yr] || 0 ) + currData.p;
-            mapFundSourceGroups[currFundSource].statusSubTotals[currData.sts] = (mapFundSourceGroups[currFundSource].statusSubTotals[currData.sts] || 0 ) + currData.p;
+            mapFundSourceGroups[currFundSource].yearSubTotals[currData.y] = (mapFundSourceGroups[currFundSource].yearSubTotals[currData.y] || 0 ) + currData.p;
+            mapFundSourceGroups[currFundSource].statusSubTotals[currData.s] = (mapFundSourceGroups[currFundSource].statusSubTotals[currData.s] || 0 ) + currData.p;
 
             for (let iXtor = 0; iXtor < currContractorList.length; iXtor++) {
                 let currContractor = currContractorList[iXtor];
                 mapContractorGroups[currContractor].subtotal += currData.p;
-                mapContractorGroups[currContractor].yearSubTotals[currData.yr] = (mapContractorGroups[currContractor].yearSubTotals[currData.yr] || 0 ) + currData.p;
-                mapContractorGroups[currContractor].categorySubTotals[currData.cat] = (mapContractorGroups[currContractor].categorySubTotals[currData.cat] || 0 ) + currData.p;
-                mapContractorGroups[currContractor].statusSubTotals[currData.sts] = (mapContractorGroups[currContractor].statusSubTotals[currData.sts] || 0 ) + currData.p;
+                mapContractorGroups[currContractor].yearSubTotals[currData.y] = (mapContractorGroups[currContractor].yearSubTotals[currData.y] || 0 ) + currData.p;
+                mapContractorGroups[currContractor].categorySubTotals[currData.cg] = (mapContractorGroups[currContractor].categorySubTotals[currData.cg] || 0 ) + currData.p;
+                mapContractorGroups[currContractor].statusSubTotals[currData.s] = (mapContractorGroups[currContractor].statusSubTotals[currData.s] || 0 ) + currData.p;
             }
 
             mapCategoryGroups[currCategory].subtotal += currData.p;
-            mapCategoryGroups[currCategory].yearSubTotals[currData.yr] = (mapCategoryGroups[currCategory].yearSubTotals[currData.yr] || 0 ) + currData.p;
-            mapCategoryGroups[currCategory].statusSubTotals[currData.sts] = (mapCategoryGroups[currCategory].statusSubTotals[currData.sts] || 0 ) + currData.p;
+            mapCategoryGroups[currCategory].yearSubTotals[currData.y] = (mapCategoryGroups[currCategory].yearSubTotals[currData.y] || 0 ) + currData.p;
+            mapCategoryGroups[currCategory].statusSubTotals[currData.s] = (mapCategoryGroups[currCategory].statusSubTotals[currData.s] || 0 ) + currData.p;
 
 
             ret.grandTotal += currData.p;

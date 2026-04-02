@@ -13,23 +13,32 @@ function App() {
     const dispatch = useDispatch();
 
     // Initial loading activities
-    useEffect(async () => {
-        console.log('[App] useEffect start...');
-        const fetchResponseMaster = await fetch('./masterData.gz');
-        if (!fetchResponseMaster.ok) {
-            console.error('Unable to fetch master data!');
-            return;
+    useEffect(() => {
+        const fetchData = async() => {
+            console.log('[App] useEffect start...');
+            try {
+                const fetchResponseMaster = await fetch('./masterData.gz');
+                if (!fetchResponseMaster.ok) {
+                    console.error('Unable to fetch master data!');
+                    return;
+                }
+                const fetchResponseJson = await fetch('./compactJson.gz');
+                if (!fetchResponseJson.ok) {
+                    console.error('Unable to fetch contracts data!');
+                    return;
+                }
+                const constractsJson = await fetchResponseJson.json(); // Already decompressed
+                const masterDataJson = await fetchResponseMaster.json(); // Already decompressed
+                console.log(`finished fetching data: ${performance.now() - startTime}ms`);
+                dispatch(setInitialData({constractsJson, masterDataJson}));
+            }
+            catch(ex) {
+                console.error(`[App] fetchData() error: ${ex}`);
+            }
+            console.log('[App] useEffect end...');
         }
-        const fetchResponseJson = await fetch('./compactJson.json.gz');
-        if (!fetchResponseJson.ok) {
-            console.error('Unable to fetch contracts data!');
-            return;
-        }
-        const jsonData = await fetchResponseJson.json(); // Already decompressed
-        const masterData = await fetchResponseMaster.json(); // Already decompressed
-        console.log(`finished fetching data: ${performance.now() - startTime}ms`);
-        dispatch(setInitialData({jsonData, masterData}));
 
+        fetchData();
     }, []);
 
     return <div>
