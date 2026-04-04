@@ -130,3 +130,6 @@ export const convertStateToTableFilter= (settingsState) => {
 
     return ret;
 }
+
+export const HAS_TOUCH = typeof window !== 'undefined' && 
+  (window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0);

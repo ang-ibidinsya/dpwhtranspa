@@ -23,6 +23,7 @@ import { TableByFundSrc } from './table-fundsrc';
 import { TableByContractor } from './table-contractor';
 import { TableByCategory } from './table-category';
 import { categoryLabelMap } from '../controls/controlUtils';
+import {HAS_TOUCH} from '../util';
 
 const iconSortLookup = {
     'asc': 'bx bxs-chevron-up-circle',
@@ -100,7 +101,8 @@ export const createChartToolTip = (tooltipId, masterData) => {
     opacity={1}
     clickable={true} // To support touch even on mobile
     float={true}
-    openOnClick={true}
+    openOnClick={HAS_TOUCH}
+    globalCloseEvents={{ clickOutsideAnchor: true, scroll: true, escape: true }}
     style={{ background: "black", color: "#fff" }}
     render={({ content }) => {
         let subtotalsMap = JSON.parse(content);
@@ -242,7 +244,7 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
         </td>        
     }
 
-    const prepareNormalCell = (cell) => {
+    const prepareNormalCell = (cell) => {        
         let cellClass = 'tdTable';
         const cellColId = cell.column.id;
         let styles={};
@@ -252,7 +254,7 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
                 styles.width = `${1/9.0*100}%`
             }
             if (entityType === EntityTypes.district || entityType === EntityTypes.fundSource || entityType === EntityTypes.region || entityType === EntityTypes.category) {
-                styles.width = `${1/6.0*100}%`
+                //styles.width = `${1/6.0*100}%`
             }
         }
         else {
@@ -260,14 +262,14 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
                 styles.width = `${2/9.0*100}%`
             }
             if (entityType === EntityTypes.district || entityType === EntityTypes.fundSource || entityType === EntityTypes.region || entityType === EntityTypes.category) {
-                styles.width = `${1/6.0*100}%`
+                //styles.width = `${1/6.0*100}%`
             }
         }
 
         if (entityType === EntityTypes.district || entityType === EntityTypes.region || entityType === EntityTypes.year 
             || entityType === EntityTypes.fundSource || entityType === EntityTypes.category
         ) {
-            cellClass += ' tdNoWrap';
+            //cellClass += ' tdNoWrap';
         }                
 
         return <td key={cell.id} className={cellClass} style={styles}>
@@ -290,7 +292,8 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
     }
 
     const prepareCategoryCellWithNoteTooltip = (cell, row) => {      
-        let cellClass = 'tdTable tdNoWrap';  
+        //let cellClass = 'tdTable tdNoWrap';  
+        let cellClass = 'tdTable';  
         const {masterData} = table.getState();
         const catVal = row.getValue('category');
         const catUserDefinedName = getMasterDataValue(masterData, EntityTypes.category, catVal)

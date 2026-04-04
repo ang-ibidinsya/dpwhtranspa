@@ -1,6 +1,7 @@
 import './controlUtils.web.css';
 import './controlUtils.mobile.css';
 import { Tooltip } from "react-tooltip";
+import {HAS_TOUCH} from '../util';
 
 export const getDpwhTooltipMessage = () => {
     let ret = {
@@ -86,6 +87,7 @@ export const createGenericToolTip = (tooltipId) => {
     id={tooltipId}
     opacity={1}
     clickable={true}
+    openOnClick={HAS_TOUCH}
     globalCloseEvents={{ clickOutsideAnchor: true, scroll: true, escape: true }}
     float={true}
     style={{ background: "black", color: "#fff", zIndex: 99999 }}
