@@ -5,6 +5,8 @@ import { Settings } from './components/settings';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { setInitialData } from './state/data/dataSlice';
+import { LoadingIndicator } from './controls/loadingIndicator';
+import { TableBase } from './components/table-base';
 
 function App() {
     console.log('[App] Render start...');
@@ -35,15 +37,22 @@ function App() {
             catch(ex) {
                 console.error(`[App] fetchData() error: ${ex}`);
             }
+
+            setFinishedLoading(true);
             console.log('[App] useEffect end...');
         }
 
         fetchData();
     }, []);
 
+    if (!finishedLoading) {
+        return <LoadingIndicator/>;
+    }
+
     return <div>
         <AppHeader/>
         <Settings/>
+        <TableBase/>
     </div>
 }
 

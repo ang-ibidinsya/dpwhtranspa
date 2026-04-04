@@ -41,7 +41,7 @@ export const getMasterDataValue = (masterData, masterDataType, value) => {
     }
     
     if (masterDataType === EntityTypes.district) {
-        let districtOrig = masterData.DistrictMaster[value].replace('District Engineering Office', 'DEO');        
+        let districtOrig = masterData.ProvinceMaster[value].replace('District Engineering Office', 'DEO');        
         let indexOfDash = districtOrig.indexOf(' - ');
         if (indexOfDash >= 0) {
             return districtOrig.substring(indexOfDash + 3);

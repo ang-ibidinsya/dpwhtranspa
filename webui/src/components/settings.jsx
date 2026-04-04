@@ -56,7 +56,7 @@ export const Settings = () => {
     // redux values    
     const dataStateMasterData = useSelector(state => state.dataReducer?.MasterData);
     const uniqueRegions = dataStateMasterData?.RegionMaster;
-    const uniqueDistricts = dataStateMasterData?.DistrictMaster;
+    const uniqueDistricts = dataStateMasterData?.ProvinceMaster;
     const uniqueContractors = dataStateMasterData?.ContractorMaster;
     const uniqueStatuses = dataStateMasterData?.StatusMaster;
     const uniqueSourceOfFunds = dataStateMasterData?.SourceMaster;

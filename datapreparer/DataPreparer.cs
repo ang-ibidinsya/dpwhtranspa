@@ -65,16 +65,36 @@ public class DataManager
         _masterStatus = [];        
     }
 
+    // For the DPWH Transparency website, some contractors do not have a contractor ID:
+    // E.g. ULTICON BUILDERS, INC. (17267) / SHIMIZU CORPORATION / TAKENAKA CIVIL ENGINEERING & CONSTRUCTION CO., LTD.
+    // FAJR CONSTRUCTION PARTS AND SUPPLY (40114) / MATT GLASS/ ALUMINUM/ CONSTRUCTION SUPPLY AND ALLIED SERVICES (37092)
+    private static string[] ProcessContractorsNg(string contractorStr)
+    {
+        if (string.IsNullOrEmpty(contractorStr))
+        {
+            return []; // Most likely contract is still bidding
+        }
+        string pattern = @"\s*/\s*(?=[^/]*\(\d+\))"; // Assumes there is a parenthesis (contractorID) for each contractor --> not true anymore
+        try
+        {
+            return Regex.Split(contractorStr, pattern);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"[ProcessContractors] Exception parsing contractor string: {ex}");
+            throw;
+        }        
+    }
     private static string[] ProcessContractors(string contractorStr)
     {
         if (string.IsNullOrEmpty(contractorStr))
         {
             return []; // Most likely contract is still bidding
         }
-        string pattern = @"\s*/\s*(?=[^/]*\(\d+\))";
+        string delimiter = @" / ";
         try
         {
-            return Regex.Split(contractorStr, pattern);
+            return contractorStr.Split(delimiter);
         }
         catch(Exception ex)
         {
@@ -183,7 +203,8 @@ public class DataManager
         }
 
         // Write to file
-        string compactJson = JsonSerializer.Serialize(compactContracts);        
+        var compactContractsSorted = compactContracts.OrderByDescending(x => x.Cost);
+        string compactJson = JsonSerializer.Serialize(compactContractsSorted);        
         File.WriteAllText("compactJson.json", compactJson);
         //string arrayJson = JsonSerializer.Serialize(arrContractFile);
         //File.WriteAllText("arrayJson.json", arrayJson);

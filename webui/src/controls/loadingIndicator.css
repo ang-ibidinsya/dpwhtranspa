@@ -1,0 +1,55 @@
+.loaderPage {
+  height: 100%;
+  width: 100%;
+}
+
+.loader {
+    border: 16px solid #eee;
+    border-radius: 50%;
+    border-top: 16px solid #A7C7E7;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    align-items: center;
+    margin: 10px auto;
+}
+
+.loader-overlay {
+  background-color: rgba(20, 20, 20, 0.5);  
+  height: 100%;
+  z-index: 100;
+  position: absolute;
+}
+
+  /* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.loaderContainer {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: calc(50%);
+  left: calc(50%);  
+}
+
+.loaderLabel {
+  margin: 10px auto;
+  text-align: center;
+  font-family: 'Trebuchet MS', sans-serif;  
+}
+
+.loaderLabel-overlay {
+  color: #eee;
+  background-color: rgba(150, 175, 200, 1);
+  border-radius: 5px;
+  padding: 10px;
+  font-family: inherit;
+}
