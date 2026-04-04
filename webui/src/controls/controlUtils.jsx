@@ -86,6 +86,7 @@ export const createGenericToolTip = (tooltipId) => {
     id={tooltipId}
     opacity={1}
     clickable={true}
+    globalCloseEvents={{ clickOutsideAnchor: true, scroll: true, escape: true }}
     float={true}
     style={{ background: "black", color: "#fff", zIndex: 99999 }}
     render={({ content }) => {        

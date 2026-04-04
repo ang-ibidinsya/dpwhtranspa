@@ -105,11 +105,3 @@ export const StackedBarChart = ({name, subtotalsMap, minCost, maxCost, dataType,
             {stacks}
         </div>
 }
-
-export const StackedBarChart2 = ({name, subtotalsMap, minCost, maxCost}) => {
-    return <div className="stackedBarChart"
-        >
-            {name}
-        </div>
-}
-

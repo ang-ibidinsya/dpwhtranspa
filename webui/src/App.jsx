@@ -7,12 +7,15 @@ import { useDispatch, useSelector} from 'react-redux';
 import { setInitialData } from './state/data/dataSlice';
 import { LoadingIndicator } from './controls/loadingIndicator';
 import { TableBase } from './components/table-base';
+import {createChartToolTip} from './components/table-base';
+import {createGenericToolTip} from './controls/controlUtils';
 
 function App() {
     console.log('[App] Render start...');
     const startTime = performance.now();
     const [finishedLoading, setFinishedLoading] = useState(false);
     const dispatch = useDispatch();
+    const dataStateMasterData = useSelector(state => state.dataReducer?.MasterData);
 
     // Initial loading activities
     useEffect(() => {
@@ -50,6 +53,8 @@ function App() {
     }
 
     return <div>
+        {createChartToolTip('chart-tooltip', dataStateMasterData)}
+        {createGenericToolTip('generic-tooltip')}        
         <AppHeader/>
         <Settings/>
         <TableBase/>

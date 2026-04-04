@@ -46,15 +46,15 @@ export const showYearLegends = () => {
     </div>;
 }
 
-export const showStatusLegends = () => {
+export const showStatusLegends = () => {    
     let legendsEl = [];
     for (var status in mapStatusColors) {
         if (!Object.prototype.hasOwnProperty.call(mapStatusColors, status)) {
             continue;
         }
         legendsEl.push(<div key={`legend-${status}`} className="legendItem">
-            <div className='legendSquare' style={{backgroundColor:`${mapStatusColors[status].color}`}}/>
-            <div className='legendLabel'>{mapStatusColors[status].statusName}</div>
+            <div className='legendSquare' style={{backgroundColor:`${mapStatusColors[status]}`}}/>
+            <div className='legendLabel'>{status}</div>
         </div>);
     }
 
@@ -94,12 +94,13 @@ export const showYearAndCategoryLegends = (categoryMaster) => {
     </div>;
 }
 
-export const createChartToolTip = (tooltipId) => {
+export const createChartToolTip = (tooltipId, masterData) => {
     return <Tooltip
     id={tooltipId}
     opacity={1}
-    clickable={true}
+    clickable={true} // To support touch even on mobile
     float={true}
+    openOnClick={true}
     style={{ background: "black", color: "#fff" }}
     render={({ content }) => {
         let subtotalsMap = JSON.parse(content);
@@ -125,8 +126,9 @@ export const createChartToolTip = (tooltipId) => {
                 displayKey = categoryMaster[key];
             }
             else if (dataType === 'status') {
-                color = getStatusColor(key);
-                displayKey = categoryMaster[key].statusName;
+                color = getStatusColor(key, masterData);
+                //displayKey = categoryMaster[key].statusName;
+                displayKey = masterData.StatusMaster[key];
             }
             else {
                 color = mapYearColors[key];
