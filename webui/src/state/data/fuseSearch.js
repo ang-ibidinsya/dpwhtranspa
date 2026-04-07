@@ -1,9 +1,9 @@
 import Fuse from 'fuse.js';
 
 const fuseOptions = {
-  keys: ['dsc'], // Keys to search in
+  keys: ['ds'], // Keys to search in
   includeScore: true,        // Include score in results
-  threshold: 0.1  ,            // Lower threshold for more accurate matches
+  threshold: 0.15  ,            // Lower threshold for more accurate matches
   findAllMatches: true,
   ignoreLocation: true,
   includeMatches: false,

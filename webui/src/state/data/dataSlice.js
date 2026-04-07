@@ -22,7 +22,7 @@ const satisfiesFilter = (currData, filters) => {
     // [4] Item Name (case insensitive)
     // Orig Simple search
     if (filters.Project && filters.ProjectSearchOption === 'searchExact' 
-        && currData.d.toUpperCase().indexOf(filters.Project.toUpperCase()) < 0) {
+        && currData.ds.toUpperCase().indexOf(filters.Project.toUpperCase()) < 0) {
         return false;
     }
 

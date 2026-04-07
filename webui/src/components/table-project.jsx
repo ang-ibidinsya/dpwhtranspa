@@ -19,6 +19,13 @@ import {getShortCategoryTooltipMessage} from '../controls/controlUtils';
 const BARCHART_ADJUSTER_MIN = 10;
 const BARCHART_ADJUSTER_MAX = 10;
 
+const BASE_DATE = new Date('2020-01-01T00:00:00');
+function computeDate(days) {
+  const result = new Date(BASE_DATE);
+  result.setDate(BASE_DATE.getDate() + days);
+  return result.toISOString().split('T')[0];
+}
+
 // [2025-03-22] Remove react table filters here; use filtered data from reducer instead
 const columnDefs = [
     {
@@ -34,20 +41,18 @@ const columnDefs = [
         accessorKey: "fr",
         header: " Contract Effectivity",
         defaultColVisibility: false,
-        cell: ({ getValue, row, column, table }) => {
-                let val = getValue();
-                if (val && val.length > 0) val = '20' + val;
-                return <div className="divCenter">{val}</div>
+        cell: ({ getValue, row, column, table }) => {                
+                let val = getValue();                
+                return <div className="divCenter">{val ? computeDate(val): '-'}</div>
             },
     },
     {
         accessorKey: "to",
-        header: "Contract Expiration",
+        header: "Contract Completion",
         defaultColVisibility: false,
         cell: ({ getValue, row, column, table }) => {
-                let val = getValue();
-                if (val && val.length > 0) val = '20' + val;
-                return <div className="divCenter">{val}</div>
+                let val = getValue();                
+                return <div className="divCenter">{val ? computeDate(val) : '-'}</div>
             },
     },    
     {
