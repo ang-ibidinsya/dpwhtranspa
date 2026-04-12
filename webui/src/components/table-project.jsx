@@ -155,14 +155,23 @@ const columnDefs = [
         header: "Cost",
         sortingFn: 'alphanumeric',
         defaultColVisibility: true,
-        cell: ({ getValue, row, column, table }) => {                        
-            return <div className="divCost">{formatMoney(getValue())}</div>;
+        cell: ({ getValue, row, column, table }) => {
+            // [Transpa] Show the costbar below the cost
+            //return <div className="divCost">{formatMoney(getValue())}</div>;
+            let {minCost, maxCost} = table.getState();
+            let currVal = getValue()
+            return <div>
+                <div className="divCost">{formatMoney(getValue())}</div>
+                <BarChart cost={row.getValue('p')} minCost={minCost} maxCost={maxCost} 
+                        adjusterMin={BARCHART_ADJUSTER_MIN}
+                        adjusterMax={BARCHART_ADJUSTER_MAX}/>
+            </div>
         },
     },
     {
         accessorKey: "CostBar",
         header: "CostBar",
-        defaultColVisibility: true,
+        defaultColVisibility: false, // [Transpa] Do not show this column as standalone column anymore
         cell: ({ getValue, row, column, table }) => {
             let {minCost, maxCost} = table.getState();
             return <BarChart cost={row.getValue('p')} minCost={minCost} maxCost={maxCost} 
@@ -290,7 +299,8 @@ export const TableByProject = (props) => {
             if (!allCols.hasOwnProperty(key)) continue;
             allCols[key] = selectedColumns.some(c => c.value === key);
         }
-        allCols.CostBar = allCols.p; // Costbar always go hand in hand with Cost
+        // [Transpa] Do not show cost bar as standalone column, just put it under the cost value
+        //allCols.CostBar = allCols.p; // Costbar always go hand in hand with Cost
       
         setColumnVisibility(allCols);
     };
