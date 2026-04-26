@@ -15,6 +15,8 @@ import { BarChart} from '../controls/barchart';
 import { MultiSelectCheckbox } from '../controls/multiselectCheckbox';
 import { EntityTypes} from '../enums';
 import {getShortCategoryTooltipMessage} from '../controls/controlUtils';
+import { CardContainerProject } from './card-project';
+import {useWindowWidth} from '../hooks/useWindowWidth';
 
 const BARCHART_ADJUSTER_MIN = 10;
 const BARCHART_ADJUSTER_MAX = 10;
@@ -243,6 +245,16 @@ export const showGrandTotal = (grandTotal, columnVisibility, handleColumnVisibil
     </div>;
 }
 
+const getNumVisibleColumns = (columnVisibility) => {
+    let count = 0;
+    for(let key in columnVisibility) {
+        if (columnVisibility[key]) {
+            count++;
+        }
+    }
+    return count;
+}
+
 export const TableByProject = (props) => {    
     const [columnFilters, setColumnFilters] = useState([]);
     const {dataState, setLoadingMsg} = props;
@@ -261,35 +273,16 @@ export const TableByProject = (props) => {
                 pageSize: 20,
             },
             sorting: [
-                // {
-                //     id: 'p',
-                //     desc: true
-                // }
             ],
         },
         state: {
-            //columnFilters: columnFilters,
             masterData: dataState.MasterData,
             maxCost: dataState.FilteredData.overallProjMaxCost,
             minCost: dataState.FilteredData.overallProjMinCost,
             setLoadingMsg: setLoadingMsg,
             columnVisibility
         },
-        //onColumnFiltersChange: setColumnFilters,
         onColumnVisibilityChange: setColumnVisibility,
-        /*
-        filterFns: {
-            multiValueFilter: (row, columnId, filterValue) => {
-                let ret = filterValue.includes(row.getValue(columnId));
-                return ret;
-            },
-            multiValueListFilter: (row, columnId, filterValue) => {
-                let cellVals = row.getValue(columnId);
-                let ret = filterValue.some(filter => cellVals.includes(filter));
-                return ret;
-            },
-        }
-        */
     })
 
     const handleColumnVisibilityChange = selectedColumns => {
@@ -314,19 +307,35 @@ export const TableByProject = (props) => {
         dataState.Filters.Status, dataState.Filters.FundSource, dataState.Filters.Contractor, dataState.Filters.Category, dataState.Filters.ContractId,
         dataState.Filters.JointVentures])
 
+    // Determine whether to show card (and how many columns) or table based on the browser width
+    const windowWidth = useWindowWidth();
+    const numVisibleColums = getNumVisibleColumns(columnVisibility);
+    const cardLayoutMaxWidth = numVisibleColums * 105;
 
-    return <>     
-        {/* <LoadingIndicator isOverlay={true}/> */}
-        {showGrandTotal(dataState.FilteredData.grandTotal, columnVisibility, handleColumnVisibilityChange)}        
-        {preparePagninator(table)}
-        <table className="tableBase">
-            <thead>
-                {prepareHeader(table)}
-            </thead>
-            <tbody>
-                {prepareBody(table, EntityTypes.project, null, dataState.MasterData)}
-            </tbody>
-        </table>
-        
-    </>;
+    console.log(`[TableByProject] Window Width: ${windowWidth}, visibleCols: ${numVisibleColums}`);
+    {/* Show either the table or card, depending on the number of columns */}
+    if (windowWidth > cardLayoutMaxWidth) {
+        return <>
+            {showGrandTotal(dataState.FilteredData.grandTotal, columnVisibility, handleColumnVisibilityChange)}        
+            {preparePagninator(table)}
+
+            <table className="tableBase">
+                <thead>
+                    {prepareHeader(table)}
+                </thead>
+                <tbody>
+                    {prepareBody(table, EntityTypes.project, null, dataState.MasterData)}
+                </tbody>
+            </table>
+            
+        </>;    
+    }
+    else {
+        return <CardContainerProject table={table} 
+            masterData={dataState.MasterData} 
+            
+        />
+    }
+
+    
 }
