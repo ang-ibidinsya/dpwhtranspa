@@ -8,7 +8,7 @@ import {
     useReactTable,
   } from "@tanstack/react-table";
 import {getMasterDataValue, formatMoney} from '../util';
-import { EntityTypes } from "../enums";
+import { ColumnSizes, EntityTypes } from "../enums";
 
 const getMappedValue = (cellColId, cellRawValue, masterData) => {
     switch(cellColId) {
@@ -30,28 +30,77 @@ const getMappedValue = (cellColId, cellRawValue, masterData) => {
     }
 }
 
-const prepareProjectCard = (row, masterData) => {
+const prepareProjectCard = (row, masterData, cardStyles) => {
     let cells = row.getVisibleCells();
-    let retFields = [];
-    cells.forEach((cell) => {        
+    let retFieldsSmall = [];
+    let retFieldsMedium = [];
+    let retFieldsBig = [];
+    cells.forEach((cell) => {
+        let arrToPut = null;
+        if (cell.column.columnDef.columnSize >= ColumnSizes.Large) {
+            arrToPut = retFieldsBig;
+        }
+        else if (cell.column.columnDef.columnSize >= ColumnSizes.Medium) {
+            arrToPut = retFieldsMedium;
+        }
+        else {
+            arrToPut = retFieldsSmall;
+        }
+         
         let mappedValue = getMappedValue(cell.column.id, cell.getValue(), masterData);
-        retFields.push(
+        arrToPut.push(
         <div className='cardFieldContainer' key={`cardCell=${cell.column.columnDef.header}`}>
             <div className="cardFieldLabel" key={`cardCell=${cell.column.columnDef.header}`}>{cell.column.columnDef.header}</div>
             <div className="cardFieldValue">{mappedValue}</div>
         </div>)
     })
-    return <div className='cardProject' style={{
-        gridTemplateColumns: '1fr 1fr 1fr'
-    }}>{retFields}</div>;
+    return <div className='cardProject'>
+        <div className='smallFieldsContainer cardFieldAreaContainer' style={{gridTemplateColumns: cardStyles.smallFields.gridTemplateColumns}}>
+            {retFieldsSmall}
+        </div>
+        <div className='mediumFieldsContainer cardFieldAreaContainer' style={{
+            gridTemplateColumns: cardStyles.smallFields.gridTemplateColumns,
+            marginTop: '10px'
+            }}>
+            {retFieldsMedium}
+        </div>
+        <div className='largeFieldsContainer cardFieldAreaContainer' style={{
+            gridTemplateColumns: cardStyles.largeFields.gridTemplateColumns,
+            marginTop: '10px'
+            }}>
+            {retFieldsBig}
+        </div>            
+    </div>;
 }
 
+const getCardStyles = (windowWidth) => {
+    let cardStyles = {
+        smallFields: {},
+        largeFields: {}
+    }
 
-export const CardContainerProject = ({table, masterData}) => {
+    if (windowWidth < 600) {
+        cardStyles.smallFields.gridTemplateColumns = '1fr';
+        cardStyles.largeFields.gridTemplateColumns = '1fr';
+    }
+    else if (windowWidth < 800) {
+        cardStyles.smallFields.gridTemplateColumns = '1fr 1fr';
+        cardStyles.largeFields.gridTemplateColumns = '1fr';
+    }
+    else {
+        cardStyles.smallFields.gridTemplateColumns = '1fr 1fr 1fr';
+        cardStyles.largeFields.gridTemplateColumns = '1fr';
+    }
+
+    return cardStyles;
+}
+
+export const CardContainerProject = ({table, masterData, windowWidth}) => {
+    let cardStyles = getCardStyles(windowWidth)
     const rows = table.getRowModel().rows;
     const rowElems = rows.map(row => {
         return <div key={row.id}>
-            {prepareProjectCard(row, masterData)}
+            {prepareProjectCard(row, masterData, cardStyles)}
         </div>
     })
     return <div className="cardContainer" style={{

@@ -13,7 +13,7 @@ import { prepareBody, prepareHeader, preparePagninator} from './table-base';
 import { formatMoney, convertStateToTableFilter, getMasterDataValue} from '../util';
 import { BarChart} from '../controls/barchart';
 import { MultiSelectCheckbox } from '../controls/multiselectCheckbox';
-import { EntityTypes} from '../enums';
+import { EntityTypes, ColumnSizes} from '../enums';
 import {getShortCategoryTooltipMessage} from '../controls/controlUtils';
 import { CardContainerProject } from './card-project';
 import {useWindowWidth} from '../hooks/useWindowWidth';
@@ -33,7 +33,7 @@ const columnDefs = [
     {
         accessorKey: "y",
         header: "Year",
-        //filterFn: 'multiValueFilter',
+        columnSize: ColumnSizes.ExtraSmall,
         defaultColVisibility: true,
         cell: ({ getValue, row, column, table }) => {
         return <div>{getValue()}</div>
@@ -42,6 +42,7 @@ const columnDefs = [
     {
         accessorKey: "fr",
         header: " Contract Effectivity",
+        columnSize: ColumnSizes.Small,
         defaultColVisibility: false,
         cell: ({ getValue, row, column, table }) => {                
                 let val = getValue();                
@@ -51,6 +52,7 @@ const columnDefs = [
     {
         accessorKey: "to",
         header: "Contract Completion",
+        columnSize: ColumnSizes.Small,
         defaultColVisibility: false,
         cell: ({ getValue, row, column, table }) => {
                 let val = getValue();                
@@ -60,6 +62,7 @@ const columnDefs = [
     {
         accessorKey: "r",
         header: "Region",
+        columnSize: ColumnSizes.Medium,
         //filterFn: 'multiValueFilter',
         defaultColVisibility: true,
         cell: ({ getValue, row, column, table }) => {
@@ -70,6 +73,7 @@ const columnDefs = [
     {
         accessorKey: "dt",
         header: "District",
+        columnSize: ColumnSizes.Medium,
         //filterFn: 'multiValueFilter',
         defaultColVisibility: true,
         cell: ({ getValue, row, column, table }) => {
@@ -79,6 +83,7 @@ const columnDefs = [
     },
     {
         accessorKey: "cg",
+        columnSize: ColumnSizes.Medium,
         header: <span style={{whiteSpace: 'nowrap'}}>
             <i className="bx bxs-flask bx-xs bx-fw" color="red"
                 data-tooltip-id='generic-tooltip'
@@ -95,6 +100,7 @@ const columnDefs = [
     {
         accessorKey: "ds",
         header: "Project",
+        columnSize: ColumnSizes.ExtraLarge,
         enableSorting: false, // disables sorting - from tanstack
         defaultColVisibility: true,
         cell: ({ getValue, row, column, table }) => {
@@ -104,6 +110,7 @@ const columnDefs = [
     {
         accessorKey: "id",
         header: "Contract ID",
+        columnSize: ColumnSizes.Small,
         defaultColVisibility: true,
         cell: ({ getValue, row, column, table }) => {
             return <div className="itemDesc">{getValue()}</div>
@@ -112,6 +119,7 @@ const columnDefs = [
     {
         accessorKey: "ci",
         header: "Contractor(s)",
+        columnSize: ColumnSizes.Large,
         //filterFn: 'multiValueListFilter',
         defaultColVisibility: true,
         cell: ({ getValue, row, column, table }) => {
@@ -127,6 +135,7 @@ const columnDefs = [
     {
         accessorKey: "sf",
         header: "Fund Source",
+        columnSize: ColumnSizes.Medium,
         //filterFn: 'multiValueFilter',
         defaultColVisibility: false,
         cell: ({ getValue, row, column, table }) => {
@@ -137,6 +146,7 @@ const columnDefs = [
     {
         accessorKey: "s",
         header: "Progress / Status",
+        columnSize: ColumnSizes.Small,
         //filterFn: 'multiValueFilter',
         defaultColVisibility: true,        
         // cell: rendered outside because unable to put background color properly here (unable for child to use up parent's entire cell area)
@@ -145,6 +155,7 @@ const columnDefs = [
     {
         accessorKey: "pc",
         header: "Progress",
+        columnSize: ColumnSizes.Small,
         //filterFn: 'multiValueFilter',
         defaultColVisibility: false,
         permanentlyHide: true,
@@ -155,6 +166,7 @@ const columnDefs = [
     {
         accessorKey: "p",
         header: "Cost",
+        columnSize: ColumnSizes.Small,
         sortingFn: 'alphanumeric',
         defaultColVisibility: true,
         cell: ({ getValue, row, column, table }) => {
@@ -173,6 +185,7 @@ const columnDefs = [
     {
         accessorKey: "CostBar",
         header: "CostBar",
+        columnSize: ColumnSizes.Medium,
         defaultColVisibility: false, // [Transpa] Do not show this column as standalone column anymore
         cell: ({ getValue, row, column, table }) => {
             let {minCost, maxCost} = table.getState();
@@ -332,8 +345,8 @@ export const TableByProject = (props) => {
     }
     else {
         return <CardContainerProject table={table} 
-            masterData={dataState.MasterData} 
-            
+            masterData={dataState.MasterData}
+            windowWidth={windowWidth}
         />
     }
 

@@ -10,3 +10,11 @@ export const EntityTypes = {
     contractor: 'contractor',
     category: 'category'
 }
+
+export const ColumnSizes = {
+    ExtraSmall: 1,
+    Small: 2,
+    Medium: 3,
+    Large: 4,
+    ExtraLarge: 5
+}
