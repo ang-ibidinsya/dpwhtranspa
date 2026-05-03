@@ -7,10 +7,10 @@ import {
     getSortedRowModel,
     useReactTable,
   } from "@tanstack/react-table";
-import {getMasterDataValue, formatMoney} from '../util';
+import {getMasterDataValue, formatMoney, statusColorMap} from '../util';
 import { ColumnSizes, EntityTypes } from "../enums";
 
-const getMappedValue = (cellColId, cellRawValue, masterData) => {
+const getMappedValue = (cellColId, cellRawValue, masterData, row) => {
     switch(cellColId) {
         case 'r': 
             return getMasterDataValue(masterData, EntityTypes.region, cellRawValue);
@@ -25,6 +25,13 @@ const getMappedValue = (cellColId, cellRawValue, masterData) => {
             return <ul className="cardContractorList">
                 {contractorArr.map((contractor) => {return <li key={`key-contractor-${contractor}`}>{contractor}</li>})}
             </ul>
+        case 's':
+            const status = getMasterDataValue(masterData, EntityTypes.status, cellRawValue);
+            const percent = row.getValue('pc');
+            const bgColor = statusColorMap[status];
+            return <div className="cardStatusField" style={{
+                backgroundColor: bgColor
+            }}>{percent}% ({status})</div>
         default:
             return cellRawValue;
     }
@@ -35,19 +42,25 @@ const prepareProjectCard = (row, masterData, cardStyles) => {
     let retFieldsSmall = [];
     let retFieldsMedium = [];
     let retFieldsBig = [];
+    let contractId = row.getValue('id');
     cells.forEach((cell) => {
         let arrToPut = null;
-        if (cell.column.columnDef.columnSize >= ColumnSizes.Large) {
+        if (cell.column.columnDef.columnSize >= ColumnSizes.Title) { 
+            // Contract Id already processed above 
+            return;
+        }
+        else if (cell.column.columnDef.columnSize >= ColumnSizes.Large) {
             arrToPut = retFieldsBig;
         }
         else if (cell.column.columnDef.columnSize >= ColumnSizes.Medium) {
-            arrToPut = retFieldsMedium;
+            //arrToPut = retFieldsMedium;
+            arrToPut = retFieldsSmall;
         }
-        else {
+        else if (cell.column.columnDef.columnSize < ColumnSizes.Medium){
             arrToPut = retFieldsSmall;
         }
          
-        let mappedValue = getMappedValue(cell.column.id, cell.getValue(), masterData);
+        let mappedValue = getMappedValue(cell.column.id, cell.getValue(), masterData, row);
         arrToPut.push(
         <div className='cardFieldContainer' key={`cardCell=${cell.column.columnDef.header}`}>
             <div className="cardFieldLabel" key={`cardCell=${cell.column.columnDef.header}`}>{cell.column.columnDef.header}</div>
@@ -55,21 +68,27 @@ const prepareProjectCard = (row, masterData, cardStyles) => {
         </div>)
     })
     return <div className='cardProject'>
-        <div className='smallFieldsContainer cardFieldAreaContainer' style={{gridTemplateColumns: cardStyles.smallFields.gridTemplateColumns}}>
-            {retFieldsSmall}
+        <div className="projectCardTitleBar">
+            <div className="cardTitle">Contract ID: {contractId}</div>
+            <div className="cardRowNum">#{row.index+1}</div>
         </div>
-        <div className='mediumFieldsContainer cardFieldAreaContainer' style={{
-            gridTemplateColumns: cardStyles.smallFields.gridTemplateColumns,
-            marginTop: '10px'
-            }}>
-            {retFieldsMedium}
-        </div>
-        <div className='largeFieldsContainer cardFieldAreaContainer' style={{
-            gridTemplateColumns: cardStyles.largeFields.gridTemplateColumns,
-            marginTop: '10px'
-            }}>
-            {retFieldsBig}
-        </div>            
+        <div className="projectCardBody">
+            <div className='smallFieldsContainer cardFieldAreaContainer' style={{gridTemplateColumns: cardStyles.smallFields.gridTemplateColumns}}>
+                {retFieldsSmall}
+            </div>
+            <div className='mediumFieldsContainer cardFieldAreaContainer' style={{
+                gridTemplateColumns: cardStyles.smallFields.gridTemplateColumns,
+                marginTop: '0px'
+                }}>
+                {retFieldsMedium}
+            </div>
+            <div className='largeFieldsContainer cardFieldAreaContainer' style={{
+                gridTemplateColumns: cardStyles.largeFields.gridTemplateColumns,
+                marginTop: '0px'
+                }}>
+                {retFieldsBig}
+            </div>       
+        </div>     
     </div>;
 }
 

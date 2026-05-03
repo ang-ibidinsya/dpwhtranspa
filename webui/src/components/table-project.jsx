@@ -110,7 +110,7 @@ const columnDefs = [
     {
         accessorKey: "id",
         header: "Contract ID",
-        columnSize: ColumnSizes.Small,
+        columnSize: ColumnSizes.Title,
         defaultColVisibility: true,
         cell: ({ getValue, row, column, table }) => {
             return <div className="itemDesc">{getValue()}</div>

@@ -16,5 +16,6 @@ export const ColumnSizes = {
     Small: 2,
     Medium: 3,
     Large: 4,
-    ExtraLarge: 5
+    ExtraLarge: 5,
+    Title: 10
 }

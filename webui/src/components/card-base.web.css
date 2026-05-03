@@ -10,18 +10,45 @@
 .cardProject {
     border: 2px solid lightgray;
     border-radius: 5px;    
-    padding: 10px;
-    height: 100%;
     background-color: white;
 }
 
 .cardFieldContainer {
-
+    padding: 5px 10px 5px 10px;
+    height: 100%;
 }
 
 .cardFieldAreaContainer {
     display: grid;
-    gap: 15px;    
+    gap: 0px 15px;    
+}
+
+.projectCardTitleBar {
+    background-color: #ccc;
+    margin-bottom: 5px;
+    padding: 3px 15px 3px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardTitle {
+    font-weight: 600;
+}
+
+.cardRowNum {
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.cardStatusField {
+    padding: 5px 9px 5px 9px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    width: fit-content;
+}
+
+.projectCardBody {
+
 }
 
 .cardFieldLabel {
