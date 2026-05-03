@@ -83,7 +83,7 @@ export const getMasterDataValue = (masterData, masterDataType, value) => {
 export const statusColorMap = {
     Completed: '#C2E9BF',
     Terminated: '#fde0e0',
-    ['On-Going']: '#fffec8',
+    ['On-Going']: '#ebe9a4ff',
     'Not Yet Started': '#eee'
 }
 

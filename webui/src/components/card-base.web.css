@@ -20,7 +20,7 @@
 
 .cardFieldAreaContainer {
     display: grid;
-    gap: 0px 15px;    
+    gap: 0px 0px;    
 }
 
 .projectCardTitleBar {

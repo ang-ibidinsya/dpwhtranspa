@@ -1,4 +1,5 @@
 import './table-base.css';
+import './table-base.mobile.css';
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from 'react-redux';
 import {
@@ -340,13 +341,16 @@ export const TableByProject = (props) => {
                     {prepareBody(table, EntityTypes.project, null, dataState.MasterData)}
                 </tbody>
             </table>
-            
+            {preparePagninator(table)}
         </>;    
     }
     else {
         return <CardContainerProject table={table} 
             masterData={dataState.MasterData}
             windowWidth={windowWidth}
+            grandTotal={dataState.FilteredData.grandTotal}
+            columnVisibility={columnVisibility}
+            handleColumnVisibilityChange={handleColumnVisibilityChange}
         />
     }
 

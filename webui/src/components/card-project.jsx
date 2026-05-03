@@ -9,6 +9,8 @@ import {
   } from "@tanstack/react-table";
 import {getMasterDataValue, formatMoney, statusColorMap} from '../util';
 import { ColumnSizes, EntityTypes } from "../enums";
+import {showGrandTotal, } from '../components/table-project';
+import {preparePagninator} from '../components/table-base';
 
 const getMappedValue = (cellColId, cellRawValue, masterData, row) => {
     switch(cellColId) {
@@ -114,7 +116,7 @@ const getCardStyles = (windowWidth) => {
     return cardStyles;
 }
 
-export const CardContainerProject = ({table, masterData, windowWidth}) => {
+export const CardContainerProject = ({table, masterData, windowWidth, grandTotal, columnVisibility, handleColumnVisibilityChange}) => {
     let cardStyles = getCardStyles(windowWidth)
     const rows = table.getRowModel().rows;
     const rowElems = rows.map(row => {
@@ -122,9 +124,14 @@ export const CardContainerProject = ({table, masterData, windowWidth}) => {
             {prepareProjectCard(row, masterData, cardStyles)}
         </div>
     })
-    return <div className="cardContainer" style={{
-        'gridTemplateColumns': '1fr'
-    }}>
-        {rowElems}
+    return <div>
+            {showGrandTotal(grandTotal, columnVisibility, handleColumnVisibilityChange)}
+            {preparePagninator(table)}
+            <div className="cardContainer" style={{
+                'gridTemplateColumns': '1fr'
+            }}>
+                {rowElems}
+            </div>
+            {preparePagninator(table)}
         </div>
 }

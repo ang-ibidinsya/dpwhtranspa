@@ -1,0 +1,19 @@
+/* A. For the grandTotalValue font size */
+@media (max-width: 430px) {
+    .grandTotalValue {
+        font-size: 1.15rem;
+    }
+}
+@media (min-width: 431px) {
+    .grandTotalValue {
+        font-size: 1.45rem;
+    }
+}
+
+/* B. For the grand total display settings */
+@media (max-width: 700px) {
+    .grandTotalSettingsContainer {
+        display: block;
+    }
+    
+}

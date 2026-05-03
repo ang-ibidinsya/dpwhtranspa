@@ -74,7 +74,7 @@ export const MultiSelectCheckbox = props => {
                 }),
                 container: provided => ({
                     ...provided,
-                    width: '250px',
+                    minWidth: '250px',
                     padding: '5px',                    
                 }),
                 placeholder: (provided) => ({

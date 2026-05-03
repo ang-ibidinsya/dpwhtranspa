@@ -95,12 +95,25 @@
 .paginator {    
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 5px;
     background-color: aliceblue;
     border-top: 2px solid lightgrey;
     border-left: 2px solid lightgrey;
     border-right: 2px solid lightgrey;
     font-weight: 600;
+    column-gap: 10px;
+}
+
+.currPage {
+    font-size: 0.9rem;
+}
+
+.pageSizeSelector {
+    font-family: inherit;
+    font-weight: 600;
+    padding: 2px;
+    border-radius: 5px;
 }
 
 .pageNavBtns {
@@ -145,26 +158,29 @@
     border-top: 2px solid lightgrey;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;    
-    background: aliceblue;        
+    background: aliceblue;
+    width: 100%;
 }
 
 /* For label-control pair inside */
 .grandTotalSettings-fieldItemContainer {
     display: flex;
     align-items: center;
-    padding: 3px 10px 3px 10px;
-    gap: 10px;
+    justify-content: flex-end;
+    padding: 3px 8px 3px 8px;
+    gap: 5px;
 }
 
 .grandTotalLabel {
-    font-family: 'Courier Prime', monospace;
+    font-family: 'Courier Prime', monospace;    
     font-size: 1.1rem;
     font-weight: 600;
 }
 
+/* Move the font-size to the mobile css */
 .grandTotalValue {
-    font-size: 1.45rem;
     font-weight: 700;
     font-family: 'Courier Prime', monospace;
     background: #d2bafa;
@@ -174,13 +190,6 @@
 
 .chkboxGrandTotalSetting {
 
-}
-
-.pageSizeSelector {
-    font-family: inherit;
-    font-weight: 600;
-    padding: 2px;
-    border-radius: 5px;
 }
 
 .legendsContainer {
