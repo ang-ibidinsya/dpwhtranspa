@@ -454,7 +454,19 @@ const showSecondaryGroupingSelector = (secGrpState) => {
     </div>
 }
 
-export const preparePagninator = (table) => {
+// scroll to the given container reference, e.g. when clicking bottom page-nav buttons
+const scrollUp = (cardContainerTopRef) => {
+    if (cardContainerTopRef && cardContainerTopRef.current) {
+        setTimeout(() => {
+            cardContainerTopRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            });
+        }, 0);
+    }
+}
+
+export const preparePagninator = (table, cardContainerTopRef) => {
     let totalFiltered = table.getFilteredRowModel().rows.length;
     let currPageIndex = table.getState().pagination.pageIndex;
     let firstRecordIndex = totalFiltered == 0 ? 0 : currPageIndex * table.getState().pagination.pageSize + 1;
@@ -481,21 +493,33 @@ export const preparePagninator = (table) => {
             </select>
             <div className='pageNavBtns'>
                 <span className={`navBtn ${isInFirstPage ? 'btnDisabled': 'btnEnabled' }`} 
-                    onClick={()=>table.firstPage()}
+                    onClick={()=> {
+                        table.firstPage()
+                        scrollUp(cardContainerTopRef);
+                    }}
                     title="Go to First Page">«</span>
 
                 <span className={`navBtn ${isInFirstPage ? 'btnDisabled': 'btnEnabled' }`} 
-                    onClick={()=>table.previousPage()}
+                    onClick={()=> {
+                        table.previousPage()
+                        scrollUp(cardContainerTopRef);
+                    }}
                     title="Go to Previous Page">‹</span>
                 
                 {/* TODO dropdown to page number*/}
 
                 <span className={`navBtn ${isInLastPage ? 'btnDisabled': 'btnEnabled' }`} 
-                    onClick={()=>table.nextPage()}
+                    onClick={()=> {
+                        table.nextPage();
+                        scrollUp(cardContainerTopRef);
+                    }}
                     title="Go to Next Page">›</span>
 
                 <span className={`navBtn ${isInLastPage ? 'btnDisabled': 'btnEnabled' }`} 
-                    onClick={()=>table.lastPage()}
+                    onClick={()=> {
+                        table.lastPage()
+                        scrollUp(cardContainerTopRef);
+                    }}
                     title="Go to Last Page">»</span>
             </div>
         </div>

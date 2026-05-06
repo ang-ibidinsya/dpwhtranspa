@@ -11,6 +11,7 @@ import {getMasterDataValue, formatMoney, statusColorMap} from '../util';
 import { ColumnSizes, EntityTypes } from "../enums";
 import {showGrandTotal, } from '../components/table-project';
 import {preparePagninator} from '../components/table-base';
+import { useRef } from 'react';
 
 const getMappedValue = (cellColId, cellRawValue, masterData, row) => {
     switch(cellColId) {
@@ -119,12 +120,13 @@ const getCardStyles = (windowWidth) => {
 export const CardContainerProject = ({table, masterData, windowWidth, grandTotal, columnVisibility, handleColumnVisibilityChange}) => {
     let cardStyles = getCardStyles(windowWidth)
     const rows = table.getRowModel().rows;
+    let cardContainerTopRef = useRef(null)
     const rowElems = rows.map(row => {
         return <div key={row.id}>
             {prepareProjectCard(row, masterData, cardStyles)}
         </div>
     })
-    return <div>
+    return <div ref={cardContainerTopRef}>
             {showGrandTotal(grandTotal, columnVisibility, handleColumnVisibilityChange)}
             {preparePagninator(table)}
             <div className="cardContainer" style={{
@@ -132,6 +134,6 @@ export const CardContainerProject = ({table, masterData, windowWidth, grandTotal
             }}>
                 {rowElems}
             </div>
-            {preparePagninator(table)}
+            {preparePagninator(table, cardContainerTopRef)}
         </div>
 }
