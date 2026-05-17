@@ -200,6 +200,7 @@
     display: flex;
     align-items: center;
     background-color: aliceblue;
+    flex-direction: row;
 }
 
 .legendsGrid-group-title {
@@ -210,6 +211,7 @@
 .legendItemsContainer {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .legendItem {
@@ -217,12 +219,16 @@
     gap: 5px;
     padding: 5px;
     margin-right: 5px;
+    flex-direction: row;
 }
 
 .legendSquare {
     font-size: 1rem;
+    height: 1rem;
     width: 1.2rem;
     border-radius: 3px;
+    flex-shrink: 0;
+    flex-basis: auto;
 }
 
 .legendsGrid-container {

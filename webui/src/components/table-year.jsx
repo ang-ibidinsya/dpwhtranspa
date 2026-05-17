@@ -12,6 +12,7 @@ import {prepareBody, prepareHeader, preparePagninator, showGrandTotalDirectly, s
 import {formatMoney} from '../util';
 import {BarChart} from '../controls/barchart';
 import {EntityTypes} from '../enums';
+import {useWindowWidth} from '../hooks/useWindowWidth';
 
 const convertStateToTableFilter = (dataState) => {
     let ret = [{id: 'subtotal', value: null}];// Add a dummy subtotal filter, so that its custom filter can filter out 0 values
@@ -99,18 +100,27 @@ export const TableByYear = (props) => {
         dataState.Filters.JointVentures
     ])
 
+    // Determine whether to show card (and how many columns) or table based on the browser width
+    const windowWidth = useWindowWidth();
+    const cardLayoutMaxWidth = 600;
+    if (windowWidth > cardLayoutMaxWidth) {
+        return <div className="tableContainer">
+            {showGrandTotalDirectly(dataState.FilteredData.grandTotal)}
+            {showStatusLegends()}
+            {preparePagninator(table)}
+            <table className="tableBase">
+                <thead>
+                    {prepareHeader(table)}
+                </thead>
+                <tbody>
+                    {prepareBody(table, EntityTypes.year, null, dataState.MasterData)}
+                </tbody>
+            </table>        
+        </div>;
+    }
+    else {
+        return 'card year'
+    }
 
-    return <div className="tableContainer">
-        {showGrandTotalDirectly(dataState.FilteredData.grandTotal)}
-        {showStatusLegends()}
-        {preparePagninator(table)}
-        <table className="tableBase">
-            <thead>
-                {prepareHeader(table)}
-            </thead>
-            <tbody>
-                {prepareBody(table, EntityTypes.year, null, dataState.MasterData)}
-            </tbody>
-        </table>        
-    </div>;
+    
 }

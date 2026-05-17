@@ -37,8 +37,8 @@ export const showYearLegends = () => {
             continue;
         }
         legendsEl.push(<div key={`legend-${year}`} className="legendItem">
-            <div className='legendSquare' style={{backgroundColor:`${mapYearColors[year]}`}}/>
-            <div className='legendLabel'>{year}</div>
+            <span className='legendSquare' style={{backgroundColor:`${mapYearColors[year]}`}}/>
+            <span className='legendLabel'>{year}</span>
         </div>);
     }
 
@@ -54,8 +54,8 @@ export const showStatusLegends = () => {
             continue;
         }
         legendsEl.push(<div key={`legend-${status}`} className="legendItem">
-            <div className='legendSquare' style={{backgroundColor:`${mapStatusColors[status]}`}}/>
-            <div className='legendLabel'>{status}</div>
+            <span className='legendSquare' style={{backgroundColor:`${mapStatusColors[status]}`}}/>
+            <span className='legendLabel'>{status}</span>
         </div>);
     }
 
@@ -71,8 +71,8 @@ export const showYearAndCategoryLegends = (categoryMaster) => {
             continue;
         }
         legendsCatEl.push(<div key={`legend-${cat}`} className="legendItem">
-            <div className='legendSquare' style={{backgroundColor:`${getCategoryColor(cat)}`}}/>
-            <div className='legendLabel'>{categoryMaster[cat]}</div>
+            <span className='legendSquare' style={{backgroundColor:`${getCategoryColor(cat)}`}}/>
+            <span className='legendLabel'>{categoryMaster[cat]}</span>
         </div>);
     }
     let legendsYearEl = [];
@@ -81,8 +81,8 @@ export const showYearAndCategoryLegends = (categoryMaster) => {
             continue;
         }
         legendsYearEl.push(<div key={`legend-${year}`} className="legendItem">
-            <div className='legendSquare' style={{backgroundColor:`${mapYearColors[year]}`}}/>
-            <div className='legendLabel'>{year}</div>
+            <span className='legendSquare' style={{backgroundColor:`${mapYearColors[year]}`}}/>
+            <span className='legendLabel'>{year}</span>
         </div>);
     }
 
