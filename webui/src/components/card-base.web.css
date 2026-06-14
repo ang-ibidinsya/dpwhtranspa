@@ -7,7 +7,7 @@
     background-color: #f8f8f8;
 }
 
-.cardProject {
+.cardItem {
     border: 2px solid lightgray;
     border-radius: 5px;    
     background-color: white;
@@ -16,6 +16,11 @@
 .cardFieldContainer {
     padding: 5px 10px 5px 10px;
     height: 100%;
+}
+
+.cardCostField {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
 }
 
 .cardFieldAreaContainer {
@@ -68,4 +73,8 @@
 .cardContractorList {
     margin: 0px;
     padding: 0px 15px 0px 15px;
+}
+
+.cardCostbarContainer {
+    margin-bottom: 10px;
 }

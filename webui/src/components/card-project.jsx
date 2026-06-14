@@ -70,7 +70,7 @@ const prepareProjectCard = (row, masterData, cardStyles) => {
             <div className="cardFieldValue">{mappedValue}</div>
         </div>)
     })
-    return <div className='cardProject'>
+    return <div className='cardItem'>
         <div className="projectCardTitleBar">
             <div className="cardTitle">Contract ID: {contractId}</div>
             <div className="cardRowNum">#{row.index+1}</div>

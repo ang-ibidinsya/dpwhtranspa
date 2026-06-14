@@ -13,6 +13,7 @@ import {formatMoney} from '../util';
 import {BarChart} from '../controls/barchart';
 import {EntityTypes} from '../enums';
 import {useWindowWidth} from '../hooks/useWindowWidth';
+import {CardContainerYear} from './card-year';
 
 const convertStateToTableFilter = (dataState) => {
     let ret = [{id: 'subtotal', value: null}];// Add a dummy subtotal filter, so that its custom filter can filter out 0 values
@@ -103,6 +104,7 @@ export const TableByYear = (props) => {
     // Determine whether to show card (and how many columns) or table based on the browser width
     const windowWidth = useWindowWidth();
     const cardLayoutMaxWidth = 600;
+    console.log(`[TableYear] windowWidth: ${windowWidth}`);
     if (windowWidth > cardLayoutMaxWidth) {
         return <div className="tableContainer">
             {showGrandTotalDirectly(dataState.FilteredData.grandTotal)}
@@ -119,7 +121,11 @@ export const TableByYear = (props) => {
         </div>;
     }
     else {
-        return 'card year'
+        return <CardContainerYear table={table} 
+                    masterData={dataState.MasterData}
+                    windowWidth={windowWidth}
+                    grandTotal={dataState.FilteredData.grandTotal}
+                />
     }
 
     
