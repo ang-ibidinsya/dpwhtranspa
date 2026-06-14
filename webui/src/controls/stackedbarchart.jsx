@@ -51,7 +51,7 @@ export const mapStatusColorsOrig = {
 export const mapStatusColors = {
     Completed: 'green',
     'On-Going': 'gold',
-    'Not Yet Started' : 'lightgray',
+    'Not Yet Started' : '#CF9FFF',
     'Terminated': 'red',
     'For Procurement': 'lightblue',
 }
