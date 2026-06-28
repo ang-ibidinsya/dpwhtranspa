@@ -4,11 +4,10 @@ import {showGrandTotalDirectly, showStatusLegends, preparePagninator} from './ta
 import {getMasterDataValue, formatMoney, statusColorMap} from '../util';
 import { mapYearColors, mapStatusColors, StackedBarChart, getCategoryColor, getStatusColor } from '../controls/stackedbarchart';
 
-const prepareProjectCard = (row, masterData, table) => {
+const prepareYearCard = (row, masterData, table) => {
     let year = row.getValue('year');
     let subtotal = row.getValue('subtotal');
     let {entityGroups, minCost, maxCost, checkedStretch} = table.getState();
-    //debugger
     const findEntity = entityGroups.find(grp => grp.year === year);
 
     let cells = row.getVisibleCells();
@@ -18,7 +17,6 @@ const prepareProjectCard = (row, masterData, table) => {
             <div>{cell.column.columnDef.header}</div>
             <div>{cell.getValue()}</div>
         </div>);
-        //let mappedValue = getMappedValue(cell.column.id, cell.getValue(), masterData, row);
     });
 
     const subtotalsTooltip = {
@@ -63,7 +61,7 @@ export const CardContainerYear = ({table, masterData, windowWidth, grandTotal}) 
     let cardContainerTopRef = useRef(null)
     const rowElems = rows.map(row => {
         return <div key={row.id}>
-            {prepareProjectCard(row, masterData, table)}
+            {prepareYearCard(row, masterData, table)}
         </div>
     })
     return <div ref={cardContainerTopRef}>

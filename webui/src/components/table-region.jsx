@@ -11,6 +11,8 @@ import {
 import {prepareBody, prepareHeader, preparePagninator, showYearLegends, showStatusLegends, showGrandTotalDirectly, showGrandTotalDirectlyWithSettings} from './table-base';
 import {formatMoney, getMasterDataValue} from '../util';
 import {EntityTypes} from '../enums';
+import {useWindowWidth} from '../hooks/useWindowWidth';
+import {CardContainerRegion} from './card-region';
 
 const convertStateToTableFilter = (dataState) => {
     let ret = [{id: 'subtotal', value: null}];// Add a dummy subtotal filter, so that its custom filter can filter out 0 values
@@ -120,21 +122,36 @@ export const TableByRegion = (props) => {
         setCheckedStretch(arg.target.checked); // Toggle the checkbox value
       };
 
-    return <div className="tableContainer">
-        {/* {showGrandTotalDirectlyWithSelector(dataState.FilteredData.grandTotal, {secondaryGroupingState, setSecondaryGroupingState})} */}
-        {/* {secondaryGroupingState === 'Year' && showYearLegends()} */}
-        {/* {secondaryGroupingState === 'Status' && showStatusLegends()} */}
-        {showGrandTotalDirectlyWithSettings(dataState.FilteredData.grandTotal, {checkedStretch, handleCheckboxChange})}
-        {showYearLegends()}
-        {showStatusLegends()}
-        {preparePagninator(table)}
-        <table className="tableBase">
-            <thead>
-                {prepareHeader(table, EntityTypes.region)}
-            </thead>
-            <tbody>
-                {prepareBody(table, EntityTypes.region, secondaryGroupingState, dataState.MasterData)}
-            </tbody>
-        </table>    
-    </div>;
+    // Determine whether to show card (and how many columns) or table based on the browser width
+    const windowWidth = useWindowWidth();
+    const cardLayoutMaxWidth = 680;
+    console.log(`[TableYear] windowWidth: ${windowWidth}`);
+
+    if (windowWidth> cardLayoutMaxWidth) {
+        return <div className="tableContainer">
+            {/* {showGrandTotalDirectlyWithSelector(dataState.FilteredData.grandTotal, {secondaryGroupingState, setSecondaryGroupingState})} */}
+            {/* {secondaryGroupingState === 'Year' && showYearLegends()} */}
+            {/* {secondaryGroupingState === 'Status' && showStatusLegends()} */}
+            {showGrandTotalDirectlyWithSettings(dataState.FilteredData.grandTotal, {checkedStretch, handleCheckboxChange})}
+            {showYearLegends()}
+            {showStatusLegends()}
+            {preparePagninator(table)}
+            <table className="tableBase">
+                <thead>
+                    {prepareHeader(table, EntityTypes.region)}
+                </thead>
+                <tbody>
+                    {prepareBody(table, EntityTypes.region, secondaryGroupingState, dataState.MasterData)}
+                </tbody>
+            </table>    
+        </div>;
+    }
+    else {
+        return <CardContainerRegion table={table} 
+                    masterData={dataState.MasterData}
+                    windowWidth={windowWidth}
+                    grandTotal={dataState.FilteredData.grandTotal}
+        />
+    }
+
 }

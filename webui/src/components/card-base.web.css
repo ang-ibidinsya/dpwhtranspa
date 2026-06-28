@@ -78,3 +78,23 @@
 .cardCostbarContainer {
     margin-bottom: 10px;
 }
+
+.tableInsideCard{
+    width: 100%;
+}
+
+.tableInsideCard-row{
+    padding: 30px 0px 3px 5px;
+    width: 100%;
+    border: 10px solid red;
+}
+
+.tableInsideCard-Cost{
+    padding-right: 5px;
+}
+
+.tableInsideCard-firstCol {
+    max-width: 60px;
+    min-width: 50px;
+    background-color: #f5f5f5;
+}
