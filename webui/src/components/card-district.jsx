@@ -5,12 +5,12 @@ import {getMasterDataValue, formatMoney, statusColorMap} from '../util';
 import { mapYearColors, mapStatusColors, StackedBarChart, getCategoryColor, getStatusColor } from '../controls/stackedbarchart';
 import { EntityTypes } from '../enums';
 
-const prepareRegionCard = (row, masterData, table, sortedIndex) => {
-    let region = row.getValue('region');
-    let regionName = getMasterDataValue(masterData, EntityTypes.region, region);
+const prepareDistrictCard = (row, masterData, table, sortedIndex) => {
+    let district = row.getValue('district');
+    let districtName = getMasterDataValue(masterData, EntityTypes.district, district);
     let subtotal = row.getValue('subtotal');
     let {entityGroups, minCost, maxCost, checkedStretch, pagination} = table.getState();
-    const findEntity = entityGroups.find(grp => grp.region === region);
+    const findEntity = entityGroups.find(grp => grp.district === district);
 
     let cells = row.getVisibleCells();
     let retFields = [];
@@ -38,7 +38,7 @@ const prepareRegionCard = (row, masterData, table, sortedIndex) => {
 
     return <div className='cardItem'>
         <div className="projectCardTitleBar">
-            <div className="cardTitle">{regionName}</div>
+            <div className="cardTitle">{districtName}</div>
             <div className="cardRowNum">#{pageIndex+1}</div>
         </div>
         <div className="projectCardBody">
@@ -56,7 +56,7 @@ const prepareRegionCard = (row, masterData, table, sortedIndex) => {
                             data-tooltip-id="chart-tooltip"
                             data-tooltip-content={JSON.stringify(subtotalsByStatusTooltip)}
                             >                        
-                            <StackedBarChart name={`card-region-${region}`} 
+                            <StackedBarChart name={`card-district-${district}`} 
                                             subtotalsMap={findEntity.statusSubTotals} 
                                             minCost={minCost} 
                                             maxCost={maxCost} 
@@ -75,7 +75,7 @@ const prepareRegionCard = (row, masterData, table, sortedIndex) => {
                             data-tooltip-id="chart-tooltip"
                             data-tooltip-content={JSON.stringify(subtotalsByYearTooltip)}
                             >                        
-                            <StackedBarChart name={`card-region=${region}`} 
+                            <StackedBarChart name={`card-district=${district}`} 
                                             subtotalsMap={findEntity.yearSubTotals} 
                                             minCost={minCost} 
                                             maxCost={maxCost} 
@@ -93,12 +93,12 @@ const prepareRegionCard = (row, masterData, table, sortedIndex) => {
     </div>;
 }
 
-export const CardContainerRegion = ({table, masterData, windowWidth, grandTotal}) => {
-    const rows = table.getRowModel().rows;
+export const CardContainerDistrict = ({table, masterData, windowWidth, grandTotal}) => {
+    const rows = table.getRowModel().rows;    
     let cardContainerTopRef = useRef(null)
     const rowElems = rows.map( (row, sortedIndex) => {
         return <div key={row.id}>
-            {prepareRegionCard(row, masterData, table, sortedIndex)}
+            {prepareDistrictCard(row, masterData, table, sortedIndex)}
         </div>
     })
     return <div ref={cardContainerTopRef}>

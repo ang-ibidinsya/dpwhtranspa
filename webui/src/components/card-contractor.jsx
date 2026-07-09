@@ -5,12 +5,12 @@ import {getMasterDataValue, formatMoney, statusColorMap} from '../util';
 import { mapYearColors, mapStatusColors, StackedBarChart, getCategoryColor, getStatusColor } from '../controls/stackedbarchart';
 import { EntityTypes } from '../enums';
 
-const prepareRegionCard = (row, masterData, table, sortedIndex) => {
-    let region = row.getValue('region');
-    let regionName = getMasterDataValue(masterData, EntityTypes.region, region);
+const prepareContractorCard = (row, masterData, table, sortedIndex) => {
+    let contractor = row.getValue('contractor');
+    let contractorName = getMasterDataValue(masterData, EntityTypes.contractor, contractor);
     let subtotal = row.getValue('subtotal');
-    let {entityGroups, minCost, maxCost, checkedStretch, pagination} = table.getState();
-    const findEntity = entityGroups.find(grp => grp.region === region);
+    let {entityGroups, minCost, maxCost, checkedStretch, pagination, categoryMaster} = table.getState();
+    const findEntity = entityGroups.find(grp => grp.contractor === contractor);
 
     let cells = row.getVisibleCells();
     let retFields = [];
@@ -34,11 +34,17 @@ const prepareRegionCard = (row, masterData, table, sortedIndex) => {
         categoryMaster: mapYearColors
     };
 
+    const subtotalsByCategoryTooltip = {
+        dataType: 'category', 
+        items: findEntity.categorySubTotals,
+        categoryMaster: categoryMaster
+    };
+
     let pageIndex = sortedIndex + pagination.pageIndex * pagination.pageSize;
 
     return <div className='cardItem'>
         <div className="projectCardTitleBar">
-            <div className="cardTitle">{regionName}</div>
+            <div className="cardTitle">{contractorName}</div>
             <div className="cardRowNum">#{pageIndex+1}</div>
         </div>
         <div className="projectCardBody">
@@ -50,18 +56,18 @@ const prepareRegionCard = (row, masterData, table, sortedIndex) => {
                 </tr>
 
                 <tr className="tableInsideCard-row">
-                    <td className="tableInsideCard-firstCol">Cost By Status:</td>
+                    <td className="tableInsideCard-firstCol">Cost By Year:</td>
                     <td className="tableInsideCard-secondCol"><div className=''>
                             <div
                             data-tooltip-id="chart-tooltip"
-                            data-tooltip-content={JSON.stringify(subtotalsByStatusTooltip)}
+                            data-tooltip-content={JSON.stringify(subtotalsByYearTooltip)}
                             >                        
-                            <StackedBarChart name={`card-region-${region}`} 
-                                            subtotalsMap={findEntity.statusSubTotals} 
+                            <StackedBarChart name={`card-contractor=${contractor}`} 
+                                            subtotalsMap={findEntity.yearSubTotals} 
                                             minCost={minCost} 
                                             maxCost={maxCost} 
                                             stretchToFullWidth={false} 
-                                            dataType='status'
+                                            dataType='year'
                                             masterData={masterData}/>
                             </div>                
                         </div>
@@ -69,18 +75,37 @@ const prepareRegionCard = (row, masterData, table, sortedIndex) => {
                 </tr>
 
                 <tr className="tableInsideCard-row">
-                    <td className="tableInsideCard-firstCol">Cost By Year:</td>
+                    <td className="tableInsideCard-firstCol">Cost By Category:</td>
                     <td className="tableInsideCard-secondCol"><div className=''>
                             <div
                             data-tooltip-id="chart-tooltip"
-                            data-tooltip-content={JSON.stringify(subtotalsByYearTooltip)}
+                            data-tooltip-content={JSON.stringify(subtotalsByCategoryTooltip)}
                             >                        
-                            <StackedBarChart name={`card-region=${region}`} 
-                                            subtotalsMap={findEntity.yearSubTotals} 
+                            <StackedBarChart name={`card-contractor-${contractor}`} 
+                                            subtotalsMap={findEntity.categorySubTotals} 
                                             minCost={minCost} 
                                             maxCost={maxCost} 
                                             stretchToFullWidth={false} 
-                                            dataType='year'
+                                            dataType='category'
+                                            masterData={masterData}/>
+                            </div>                
+                        </div>
+                    </td>
+                </tr>
+
+                <tr className="tableInsideCard-row">
+                    <td className="tableInsideCard-firstCol">Cost By Status:</td>
+                    <td className="tableInsideCard-secondCol"><div className=''>
+                            <div
+                            data-tooltip-id="chart-tooltip"
+                            data-tooltip-content={JSON.stringify(subtotalsByStatusTooltip)}
+                            >                        
+                            <StackedBarChart name={`card-contractor-${contractor}`} 
+                                            subtotalsMap={findEntity.statusSubTotals} 
+                                            minCost={minCost} 
+                                            maxCost={maxCost} 
+                                            stretchToFullWidth={false} 
+                                            dataType='status'
                                             masterData={masterData}/>
                             </div>                
                         </div>
@@ -93,12 +118,12 @@ const prepareRegionCard = (row, masterData, table, sortedIndex) => {
     </div>;
 }
 
-export const CardContainerRegion = ({table, masterData, windowWidth, grandTotal}) => {
-    const rows = table.getRowModel().rows;
+export const CardContainerContractor = ({table, masterData, windowWidth, grandTotal}) => {
+    const rows = table.getRowModel().rows;    
     let cardContainerTopRef = useRef(null)
     const rowElems = rows.map( (row, sortedIndex) => {
         return <div key={row.id}>
-            {prepareRegionCard(row, masterData, table, sortedIndex)}
+            {prepareContractorCard(row, masterData, table, sortedIndex)}
         </div>
     })
     return <div ref={cardContainerTopRef}>

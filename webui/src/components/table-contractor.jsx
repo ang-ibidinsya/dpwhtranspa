@@ -12,6 +12,8 @@ import {prepareBody, prepareHeader, preparePagninator, showStatusLegends, showYe
 import {formatMoney, getMasterDataValue} from '../util';
 import {EntityTypes} from '../enums';
 import {getShortCategoryTooltipMessage, getContractorCostTooltipMessage, getContractorFilterTooltipMessage} from '../controls/controlUtils';
+import {useWindowWidth} from '../hooks/useWindowWidth';
+import {CardContainerContractor} from './card-contractor';
 
 const convertStateToTableFilter = (dataState) => {
     let ret = [{id: 'subtotal', value: null}];// Add a dummy subtotal filter, so that its custom filter can filter out 0 values
@@ -157,18 +159,32 @@ export const TableByContractor = (props) => {
         setCheckedStretch(arg.target.checked); // Toggle the checkbox value
       };
 
-    return <div className="tableContainer">
-        {showGrandTotalDirectlyWithSettings(dataState.FilteredData.grandTotal, {checkedStretch, handleCheckboxChange})}
-        {showYearAndCategoryLegends(categoryMaster)}
-        {showStatusLegends()}
-        {preparePagninator(table)}
-        <table className="tableBase">
-            <thead>
-                {prepareHeader(table, EntityTypes.contractor)}
-            </thead>
-            <tbody>
-                {prepareBody(table, EntityTypes.contractor, null, dataState.MasterData)}
-            </tbody>
-        </table>
-    </div>;
+    // Determine whether to show card (and how many columns) or table based on the browser width
+    const windowWidth = useWindowWidth();
+    const cardLayoutMaxWidth = 680;
+    console.log(`[TableYear] windowWidth: ${windowWidth}`);
+        
+    if (windowWidth> cardLayoutMaxWidth) {
+        return <div className="tableContainer">
+            {showGrandTotalDirectlyWithSettings(dataState.FilteredData.grandTotal, {checkedStretch, handleCheckboxChange})}
+            {showYearAndCategoryLegends(categoryMaster)}
+            {showStatusLegends()}
+            {preparePagninator(table)}
+            <table className="tableBase">
+                <thead>
+                    {prepareHeader(table, EntityTypes.contractor)}
+                </thead>
+                <tbody>
+                    {prepareBody(table, EntityTypes.contractor, null, dataState.MasterData)}
+                </tbody>
+            </table>
+        </div>;
+    }
+    else {
+        return <CardContainerContractor table={table} 
+                masterData={dataState.MasterData}
+                windowWidth={windowWidth}
+                grandTotal={dataState.FilteredData.grandTotal}
+        />
+    }
 }

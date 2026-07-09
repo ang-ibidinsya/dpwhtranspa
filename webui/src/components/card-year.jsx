@@ -7,7 +7,7 @@ import { mapYearColors, mapStatusColors, StackedBarChart, getCategoryColor, getS
 const prepareYearCard = (row, masterData, table) => {
     let year = row.getValue('year');
     let subtotal = row.getValue('subtotal');
-    let {entityGroups, minCost, maxCost, checkedStretch} = table.getState();
+    let {entityGroups, minCost, maxCost, checkedStretch, pagination} = table.getState();
     const findEntity = entityGroups.find(grp => grp.year === year);
 
     let cells = row.getVisibleCells();
@@ -25,10 +25,12 @@ const prepareYearCard = (row, masterData, table) => {
         categoryMaster: mapStatusColors
     };
 
+    let pageIndex = row.index + pagination.pageIndex * pagination.pageSize;
+
     return <div className='cardItem'>
         <div className="projectCardTitleBar">
             <div className="cardTitle">Year: {year}</div>
-            <div className="cardRowNum">#{row.index+1}</div>
+            <div className="cardRowNum">#{pageIndex+1}</div>
         </div>
         <div className="projectCardBody">
             <div className=''>

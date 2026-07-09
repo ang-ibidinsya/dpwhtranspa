@@ -11,6 +11,8 @@ import {
 import {prepareBody, prepareHeader, preparePagninator, showYearLegends, showStatusLegends, showGrandTotalDirectlyWithSettings} from './table-base';
 import {formatMoney, getMasterDataValue} from '../util';
 import {EntityTypes} from '../enums';
+import {useWindowWidth} from '../hooks/useWindowWidth';
+import {CardContainerDistrict} from './card-district';
 
 const convertStateToTableFilter = (dataState) => {
     let ret = [{id: 'subtotal', value: null}];// Add a dummy subtotal filter, so that its custom filter can filter out 0 values
@@ -116,8 +118,14 @@ export const TableByDistrict = (props) => {
     const handleCheckboxChange = (arg) => {
         setCheckedStretch(arg.target.checked); // Toggle the checkbox value
       };
-      
-    return <div className="tableContainer">
+
+    // Determine whether to show card (and how many columns) or table based on the browser width
+    const windowWidth = useWindowWidth();
+    const cardLayoutMaxWidth = 680;
+    console.log(`[TableYear] windowWidth: ${windowWidth}`);
+    
+    if (windowWidth> cardLayoutMaxWidth) {
+        return <div className="tableContainer">
         {showGrandTotalDirectlyWithSettings(dataState.FilteredData.grandTotal, {checkedStretch, handleCheckboxChange})}
         {showYearLegends()}
         {showStatusLegends()}
@@ -131,4 +139,12 @@ export const TableByDistrict = (props) => {
             </tbody>
         </table>
     </div>;
+    }
+    else {
+        return <CardContainerDistrict table={table} 
+                            masterData={dataState.MasterData}
+                            windowWidth={windowWidth}
+                            grandTotal={dataState.FilteredData.grandTotal}
+                />
+    }
 }
