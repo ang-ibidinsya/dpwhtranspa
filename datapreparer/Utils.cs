@@ -1,3 +1,5 @@
+using System.IO.Compression;
+
 namespace DataPreparer;
 
 public class Utils
@@ -12,5 +14,15 @@ public class Utils
         }
 
         return (int)(dt.Value - MiddleValue).TotalDays;
+    }
+
+    public static void GzipData(string data, string filename)
+    {
+        using (var fileStream = File.Create(filename))
+        using (var gzipStream = new GZipStream(fileStream, CompressionMode.Compress))
+        using (var writer = new StreamWriter(gzipStream))
+        {
+            writer.Write(data);
+        }
     }
 }

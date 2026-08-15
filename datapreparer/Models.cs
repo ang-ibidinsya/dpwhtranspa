@@ -57,7 +57,7 @@ public class CompactContract
     [JsonPropertyName("ds")]
     public string Desc { get; set; }
     [JsonPropertyName("ci")]
-    public List<ushort> ContractorIds { get; set; } = new List<ushort>();
+    public List<uint> ContractorIds { get; set; } = new List<uint>();
     public List<string> Contractors = new List<string>();
     [JsonPropertyName("dt")]
     public ushort? DistrictOfficeId { get; set; }
@@ -92,6 +92,8 @@ public class CompactContract
 
     [JsonPropertyName("cg")]
     public ushort? CategoryId { get; set; }
+    [JsonPropertyName("mc")]
+    public ushort? MyCategoryId { get; set; }
 
     [JsonPropertyName("rp")]
     public int? ReportCount { get; set; }

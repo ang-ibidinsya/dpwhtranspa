@@ -6,6 +6,9 @@ namespace DataPreparer;
 
 public class DataManager
 {
+    /// <summary>
+    /// Directory of per-page raw contract from DPWH Transpa Website
+    /// </summary>
     public string DirPath { get; set; }
 
     private MasterData _masterData { get; set; } = new MasterData();
@@ -16,13 +19,24 @@ public class DataManager
     Dictionary<string, ushort> _masterSrcOfFunds;
     Dictionary<string, ushort> _masterProvince;
     Dictionary<string, ushort> _masterRegion;
-    Dictionary<string, ushort> _masterContractor;
+    Dictionary<string, uint> _masterContractor;
 
-
+    /// <summary>
+    /// Ctor that accepts path of raw contract json files.
+    /// The directory contains 1 json file for each page getched via HTTP from DPWH Transpa Website.
+    /// </summary>
+    /// <param name="pathDir"></param>
     public DataManager(string pathDir)
     {
         DirPath = pathDir;
     }
+
+    /// <summary>
+    /// Constructor that takes in all parsed contracts json along with its master data.
+    /// This is in preparation for re-cateogrizing the DPWH contracts using own algo.
+    /// </summary>
+    /// <param name="pathDir"></param>    
+
     public IEnumerable<string> ReadData()
     {
         if (!Directory.Exists(DirPath))
@@ -40,6 +54,20 @@ public class DataManager
     }
 
     private static ushort? FindIdx(Dictionary<string, ushort> dict, string key)
+    {
+        if (string.IsNullOrEmpty(key))
+        {
+            return null;
+        }
+
+        if (!dict.ContainsKey(key))
+        {
+            dict.Add(key, (ushort)dict.Count);            
+        }
+        return dict[key];
+    }
+
+    private static uint? FindIdxUint(Dictionary<string, uint> dict, string key)
     {
         if (string.IsNullOrEmpty(key))
         {
@@ -161,7 +189,7 @@ public class DataManager
                     List<ushort> contractordIdxList = [];
                     foreach (string contractor in contractors)
                     {
-                        var contractorId = FindIdx(_masterContractor, contractor);
+                        var contractorId = FindIdxUint(_masterContractor, contractor);
                         if (contractorId.HasValue)
                         {
                             currCompact.ContractorIds.Add(contractorId.Value);
