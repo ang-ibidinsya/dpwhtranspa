@@ -92,7 +92,7 @@ public class Categorizer
             if (!contract.Tags.Any()) {
                 continue;
             }
-            contract.CategoryId = categoryMap[contract.Tags.FirstOrDefault()];
+            contract.MyCategoryId = categoryMap[contract.Tags.FirstOrDefault()];
         }
         
         #if true

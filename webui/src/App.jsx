@@ -22,12 +22,12 @@ function App() {
         const fetchData = async() => {
             console.log('[App] useEffect start...');
             try {
-                const fetchResponseMaster = await fetch('./masterData.gz');
+                const fetchResponseMaster = await fetch('./categorizedMasterData.gz');
                 if (!fetchResponseMaster.ok) {
                     console.error('Unable to fetch master data!');
                     return;
                 }
-                const fetchResponseJson = await fetch('./compactJson.gz');
+                const fetchResponseJson = await fetch('./categorizedContracts.gz');
                 if (!fetchResponseJson.ok) {
                     console.error('Unable to fetch contracts data!');
                     return;
