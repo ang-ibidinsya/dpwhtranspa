@@ -21,6 +21,8 @@ const getMappedValue = (cellColId, cellRawValue, masterData, row) => {
             return getMasterDataValue(masterData, EntityTypes.district, cellRawValue);
         case 'cg':
             return getMasterDataValue(masterData, EntityTypes.category, cellRawValue);
+        case 'mc':
+            return getMasterDataValue(masterData, EntityTypes.mycategory, cellRawValue);            
         case 'p':
             return <div className="divCost" style={{width: '100%'}}>{formatMoney(cellRawValue)}</div>
         case 'ci':
@@ -65,8 +67,8 @@ const prepareProjectCard = (row, masterData, cardStyles) => {
          
         let mappedValue = getMappedValue(cell.column.id, cell.getValue(), masterData, row);
         arrToPut.push(
-        <div className='cardFieldContainer' key={`cardCell=${cell.column.columnDef.header}`}>
-            <div className="cardFieldLabel" key={`cardCell=${cell.column.columnDef.header}`}>{cell.column.columnDef.header}</div>
+        <div className='cardFieldContainer' key={`cardField-${cell.column.columnDef.accessorKey}`}>
+            <div className="cardFieldLabel">{cell.column.columnDef.header}</div>
             <div className="cardFieldValue">{mappedValue}</div>
         </div>)
     })

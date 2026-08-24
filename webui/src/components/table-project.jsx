@@ -90,7 +90,7 @@ const columnDefs = [
                 data-tooltip-id='generic-tooltip'
                 data-tooltip-content={getShortCategoryTooltipMessage()}
             >
-            </i>Category</span>,
+            </i>DPWH Category</span>,
         //filterFn: 'multiValueFilter',
         defaultColVisibility: true,
         cell: ({ getValue, row, column, table }) => {
@@ -98,6 +98,22 @@ const columnDefs = [
                 return <div className="taggedValueContainer"><div className="taggedValue">{getMasterDataValue(masterData, EntityTypes.category, getValue())}</div></div>
             },
     },
+    {
+        accessorKey: "mc",
+        columnSize: ColumnSizes.Medium,
+        header: <span style={{whiteSpace: 'nowrap'}}>
+            <i className="bx bxs-flask bx-xs bx-fw" color="red"
+                data-tooltip-id='generic-tooltip'
+                data-tooltip-content={getShortCategoryTooltipMessage()}
+            >
+            </i>My Category</span>,
+        //filterFn: 'multiValueFilter',
+        defaultColVisibility: true,
+        cell: ({ getValue, row, column, table }) => {
+                let {masterData} = table.getState();
+                return <div className="taggedValueContainer"><div className="taggedValue">{getMasterDataValue(masterData, EntityTypes.mycategory, getValue())}</div></div>
+            },
+    },    
     {
         accessorKey: "ds",
         header: "Project",
