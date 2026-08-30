@@ -60,7 +60,8 @@ export const Settings = () => {
     const uniqueContractors = dataStateMasterData?.ContractorMaster;
     const uniqueStatuses = dataStateMasterData?.StatusMaster;
     const uniqueSourceOfFunds = dataStateMasterData?.SourceMaster;
-    const uniqueCategories = dataStateMasterData?.CategoryMaster;
+    const uniqueCategoriesDpwh = dataStateMasterData?.CategoryMaster;
+    const uniqueCategoriesMy = dataStateMasterData?.MyCategoryMaster;
     const jointVentureOptions = {includeAll: 'Include All',
         solo: 'Solo Ventures Only',
         jointOnly: 'Joint Ventures Only',
@@ -146,7 +147,7 @@ export const Settings = () => {
                     {...register("Grouping", { required: true })}
                 >                    
                 </input>
-                <span>Category</span>
+                <span>DPWH Category</span>
                 <i className="bx bxs-flask bx-xs bx-fw" color="red"
                     data-tooltip-id='generic-tooltip'
                     data-tooltip-content={getCategoryTooltipMessage()}
@@ -169,7 +170,8 @@ export const Settings = () => {
         Contractor: formatMasterDataComboOptions(uniqueContractors),
         Status: formatMasterDataComboOptions(uniqueStatuses),
         "Fund Source": formatMasterDataComboOptions(uniqueSourceOfFunds),
-        Category: formatCategoryComboOptions(uniqueCategories),
+        "DPWH Category": formatCategoryComboOptions(uniqueCategoriesDpwh),
+        "My Category": formatCategoryComboOptions(uniqueCategoriesMy),
         "Joint Ventures": formatMasterDataComboOptions(jointVentureOptions),
     }
 
@@ -313,7 +315,7 @@ export const Settings = () => {
             )}
             />;
         }
-        else if (fieldName === 'Category') {
+        else if (fieldName === 'DPWH Category' || fieldName === 'My Category') {
             inputElem = <Controller
             name={fieldName}
             control={control}
@@ -375,7 +377,8 @@ export const Settings = () => {
             {createFilterField('Fund Source', 'combo', {placeHolder: 'e.g. "gaa 2024", "gaa 2016" (multiselect)'})}
             {createFilterField('Contractor', 'combo', {largeCombo: true, placeHolder: 'e.g. "sunwest", "alro", "hi-tone" (multiselect)'})}
             {createFilterField('Contract Id', 'text', {placeHolder: 'e.g. "24B00084", "23B00040", "24CI0030"'})}
-            {createFilterField('Category', 'combo', {placeHolder: 'e.g. "road", "footbridge", "flood" (multiselect)'})}
+            {createFilterField('DPWH Category', 'combo', {placeHolder: 'e.g. "Bridges", "Roads" (multiselect)'})}
+            {createFilterField('My Category', 'combo', {placeHolder: 'e.g. "road", "footbridge", "flood" (multiselect)'})}
             {createFilterField('Joint Ventures', 'combo', {isMulti: false, placeHolder: '', defaultOptionValue: {value: 'includeAll', label: 'Include All'}})}
             </div>
         </div>
