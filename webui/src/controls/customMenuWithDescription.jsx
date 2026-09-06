@@ -3,9 +3,10 @@ import React from 'react';
 import Select, { components } from 'react-select';
 
 const Option = (props) => {
+    let optionLabelClass = 'optionLabel';
     return (        
             <components.Option {...props}>
-                <div className='optionLabel'>{props.data.label}</div>
+                <div className='optionLabel optionLabel-mine'>{props.data.label}</div>
                 <div className='optionSubtitle'>{props.data.subtitle}</div>
             </components.Option>
     );

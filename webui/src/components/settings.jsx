@@ -10,7 +10,7 @@ import {setSettings, setSettingsAsync} from '../state/data/dataSlice';
 import {uniqueYears} from './filterItems';
 import { filterOptions } from '../util';
 import {DebouncedTextField} from '../controls/debouncedTextField';
-import {getCategoryTooltipMessage, getDistrictTooltipMessage, getProjectTooltipMessage} from '../controls/controlUtils';
+import {getDpwhCategoryTooltipMessage, getMyCategoryTooltipMessage, getDistrictTooltipMessage, getProjectTooltipMessage} from '../controls/controlUtils';
 import {CustomMenuWithDescription} from '../controls/customMenuWithDescription';
 import { categoryLabelMap } from '../controls/controlUtils';
 
@@ -144,15 +144,22 @@ export const Settings = () => {
                 <span>Contractor</span>
             </label>
             <label className="groupingField">
-                <input type="radio" name="groupingFields" value="Category" 
+                <input type="radio" name="groupingFields" value="DPWH Category" 
                     {...register("Grouping", { required: true })}
                 >                    
                 </input>
                 <span>DPWH Category</span>
-                <i className="bx bxs-flask bx-xs bx-fw" color="red"
+            </label>
+            <label className="groupingField">
+                <input type="radio" name="groupingFields" value="My Category" 
+                    {...register("Grouping", { required: true })}
+                >                    
+                </input>
+                <span>My Category</span>
+                <span className='fieldInfo'
                     data-tooltip-id='generic-tooltip'
-                    data-tooltip-content={getCategoryTooltipMessage()}
-                ></i>
+                    data-tooltip-content={getMyCategoryTooltipMessage()}
+                    style={{cursor: 'pointer'}}> ⚠️ :</span>
             </label>
             <label className="groupingField">
                 <input type="radio" name="groupingFields" value="Project" defaultChecked 
@@ -197,15 +204,23 @@ export const Settings = () => {
             </div>
         }
 
-        if (fieldName === 'Category') {
+        if (fieldName === 'DPWH Category') {
             return <div className="fieldLabel">
                 <span>{fieldName}</span>
-                <i className='fieldInfo bx bxs-flask bx-xs bx-fw'
+                <span className='fieldInfo'
                     data-tooltip-id='generic-tooltip'
-                    data-tooltip-content={getCategoryTooltipMessage()}
-                    style={{cursor: 'pointer'}}
-                ></i>
-                <span>:</span>
+                    data-tooltip-content={getDpwhCategoryTooltipMessage()}
+                    style={{cursor: 'pointer'}}> 🛈 :</span>
+            </div>
+        }
+        
+        if (fieldName === 'My Category') {
+            return <div className="fieldLabel">
+                <span>{fieldName}</span>
+                <span className='fieldInfo'
+                    data-tooltip-id='generic-tooltip'
+                    data-tooltip-content={getMyCategoryTooltipMessage()}
+                    style={{cursor: 'pointer'}}> ⚠️ :</span>
             </div>
         }
 

@@ -97,7 +97,7 @@ export const TableByContractor = (props) => {
                     data-tooltip-id='generic-tooltip'
                     data-tooltip-content={getShortCategoryTooltipMessage()}
                 ></i>
-                Cost by Category</span>,
+                Cost by My Category</span>,
             enableSorting: false, // disables sorting - from tanstack
         },
         {
@@ -164,7 +164,7 @@ export const TableByContractor = (props) => {
 
     // Determine whether to show card (and how many columns) or table based on the browser width
     const windowWidth = useWindowWidth();
-    const cardLayoutMaxWidth = 680;
+    const cardLayoutMaxWidth = 850;
     console.log(`[TableYear] windowWidth: ${windowWidth}`);
         
     if (windowWidth> cardLayoutMaxWidth) {

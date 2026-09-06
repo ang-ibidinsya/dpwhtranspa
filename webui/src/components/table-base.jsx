@@ -90,7 +90,7 @@ export const showYearAndCategoryLegends = (categoryMaster) => {
             <div className='legendsGrid-group-title legendsGrid-item-bottom-border'>Years: </div>
             <div className='legendsGrid-group-item-container legendsGrid-item-bottom-border'>{legendsYearEl}</div>
                 
-            <div className='legendsGrid-group-title'>Categories: </div>
+            <div className='legendsGrid-group-title'>My Categories: </div>
             <div className='legendsGrid-group-item-container'>{legendsCatEl}</div>        
     </div>;
 }
@@ -594,7 +594,7 @@ export const TableBase = () => {
         </>
     }
 
-    if (dataState.Grouping === 'Category') {
+    if (dataState.Grouping === 'DPWH Category') {
         return <>
             {loadingMsg && <LoadingIndicator isOverlay={true} refTable={tableRef} msg={loadingMsg}/>}
             <div className="tableContainer" ref={tableRef}>

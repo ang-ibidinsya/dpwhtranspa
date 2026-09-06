@@ -11,10 +11,18 @@ export const getDpwhTooltipMessage = () => {
     return JSON.stringify(ret);
 }
 
-export const getCategoryTooltipMessage = () => {
+export const getMyCategoryTooltipMessage = () => {
     let ret = {
         title: `⚠️ EXPERIMENTAL FEATURE`,
         body: "Categories are not provided on the DPWH website and are assigned based on the developer's algorithm/judgment. Misclassified or uncategorized items can be reported to the developer."
+    };
+    return JSON.stringify(ret);
+}
+
+export const getDpwhCategoryTooltipMessage = () => {
+    let ret = {
+        title: `💡 INFORMATION`,
+        body: "Categories provided from the DPWH Transparency website."
     };
     return JSON.stringify(ret);
 }

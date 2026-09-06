@@ -111,7 +111,7 @@ const columnDefs = [
         defaultColVisibility: true,
         cell: ({ getValue, row, column, table }) => {
                 let {masterData} = table.getState();
-                return <div className="taggedValueContainer"><div className="taggedValue">{getMasterDataValue(masterData, EntityTypes.mycategory, getValue())}</div></div>
+                return <div className="taggedValueContainer"><div className="taggedValue taggedValue-mine">{getMasterDataValue(masterData, EntityTypes.mycategory, getValue())}</div></div>
             },
     },    
     {

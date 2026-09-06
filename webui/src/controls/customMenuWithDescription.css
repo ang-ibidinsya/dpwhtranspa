@@ -8,6 +8,10 @@
     border-radius: 10px;
 }
 
+.optionLabel-mine {
+    background-color: #f7dc86;
+}
+
 .optionSubtitle {    
     color: #555;
     font-size: 0.95rem;

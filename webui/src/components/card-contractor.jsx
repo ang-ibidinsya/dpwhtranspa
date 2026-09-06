@@ -75,7 +75,7 @@ const prepareContractorCard = (row, masterData, table, sortedIndex) => {
                 </tr>
 
                 <tr className="tableInsideCard-row">
-                    <td className="tableInsideCard-firstCol">Cost By Category:</td>
+                    <td className="tableInsideCard-firstCol">Cost By My Category:</td>
                     <td className="tableInsideCard-secondCol"><div className=''>
                             <div
                             data-tooltip-id="chart-tooltip"
