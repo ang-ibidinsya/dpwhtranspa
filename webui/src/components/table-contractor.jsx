@@ -58,6 +58,7 @@ export const TableByContractor = (props) => {
 
     const filteredContractorGroups = dataState.FilteredData?.contractorGroups;
     const categoryMaster = dataState.MasterData.CategoryMaster;
+    const myCategoryMaster = dataState.MasterData.MyCategoryMaster;
     console.log('filteredContractorGroups', filteredContractorGroups);
 
     const columnDefs = [
@@ -127,7 +128,7 @@ export const TableByContractor = (props) => {
             minCost: dataState.FilteredData.overallContractorMinCost,
             masterData: dataState.MasterData,
             setLoadingMsg: setLoadingMsg,
-            categoryMaster,
+            myCategoryMaster,
             checkedStretch
         },
         onColumnFiltersChange: setColumnFilters,
@@ -151,6 +152,8 @@ export const TableByContractor = (props) => {
         dataState.Filters.Region,
         dataState.Filters.FundSource,
         dataState.Filters.Contractor,
+        dataState.Filters.DpwhCategory, 
+        dataState.Filters.MyCategory,
         dataState.Filters.ContractId,
         dataState.Filters.JointVentures
     ])
@@ -167,7 +170,7 @@ export const TableByContractor = (props) => {
     if (windowWidth> cardLayoutMaxWidth) {
         return <div className="tableContainer">
             {showGrandTotalDirectlyWithSettings(dataState.FilteredData.grandTotal, {checkedStretch, handleCheckboxChange})}
-            {showYearAndCategoryLegends(categoryMaster)}
+            {showYearAndCategoryLegends(myCategoryMaster)}
             {showStatusLegends()}
             {preparePagninator(table)}
             <table className="tableBase">

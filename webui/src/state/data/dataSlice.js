@@ -44,9 +44,14 @@ const satisfiesFilter = (currData, filters) => {
             return ret;
         }
     }
+    
+    // [8a] DPWH Category
+    if (filters.DpwhCategory?.length > 0 && !filters.DpwhCategory.includes(currData.cg)) {
+        return false;
+    }
 
-    // [8] Category
-    if (filters.Category?.length > 0 && !filters.Category.includes(currData.cg)) {
+    // [8b] My Category
+    if (filters.MyCategory?.length > 0 && !filters.MyCategory.includes(currData.mc)) {
         return false;
     }
 
@@ -221,6 +226,7 @@ const mapAndFilterData = (data, filters) => {
                         contractor: currContractor,
                         yearSubTotals: {},
                         categorySubTotals: {},
+                        myCategorySubTotals: {},
                         statusSubTotals: {}
                     };
                 }
@@ -269,6 +275,7 @@ const mapAndFilterData = (data, filters) => {
                 mapContractorGroups[currContractor].subtotal += currData.p;
                 mapContractorGroups[currContractor].yearSubTotals[currData.y] = (mapContractorGroups[currContractor].yearSubTotals[currData.y] || 0 ) + currData.p;
                 mapContractorGroups[currContractor].categorySubTotals[currData.cg] = (mapContractorGroups[currContractor].categorySubTotals[currData.cg] || 0 ) + currData.p;
+                mapContractorGroups[currContractor].myCategorySubTotals[currData.mc] = (mapContractorGroups[currContractor].myCategorySubTotals[currData.mc] || 0 ) + currData.p;
                 mapContractorGroups[currContractor].statusSubTotals[currData.s] = (mapContractorGroups[currContractor].statusSubTotals[currData.s] || 0 ) + currData.p;
             }
 
@@ -351,7 +358,8 @@ const hasFilter = (filters) => {
     filters?.Status?.length > 0 ||
     filters?.FundSource?.length > 0 ||
     filters?.Contractor?.length > 0 ||
-    filters?.Category?.length > 0 ||
+    filters?.DpwhCategory?.length > 0 ||
+    filters?.MyCategory?.length > 0 ||
     filters?.ContractId?.length > 0 ||
     filters?.Project?.length > 0 ||
     filters?.JointVentures === 'solo' || filters?.JointVentures === 'jointOnly';

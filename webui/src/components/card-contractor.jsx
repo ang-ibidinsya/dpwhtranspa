@@ -9,7 +9,7 @@ const prepareContractorCard = (row, masterData, table, sortedIndex) => {
     let contractor = row.getValue('contractor');
     let contractorName = getMasterDataValue(masterData, EntityTypes.contractor, contractor);
     let subtotal = row.getValue('subtotal');
-    let {entityGroups, minCost, maxCost, checkedStretch, pagination, categoryMaster} = table.getState();
+    let {entityGroups, minCost, maxCost, checkedStretch, pagination, myCategoryMaster} = table.getState();
     const findEntity = entityGroups.find(grp => grp.contractor === contractor);
 
     let cells = row.getVisibleCells();
@@ -33,11 +33,11 @@ const prepareContractorCard = (row, masterData, table, sortedIndex) => {
         items: findEntity.yearSubTotals,
         categoryMaster: mapYearColors
     };
-
+    
     const subtotalsByCategoryTooltip = {
         dataType: 'category', 
-        items: findEntity.categorySubTotals,
-        categoryMaster: categoryMaster
+        items: findEntity.myCategorySubTotals,
+        categoryMaster: myCategoryMaster
     };
 
     let pageIndex = sortedIndex + pagination.pageIndex * pagination.pageSize;

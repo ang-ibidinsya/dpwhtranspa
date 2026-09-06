@@ -110,7 +110,8 @@ export const TableByDistrict = (props) => {
         dataState.Filters.Region,
         dataState.Filters.FundSource,
         dataState.Filters.Contractor,
-        dataState.Filters.Category,
+        dataState.Filters.DpwhCategory, 
+        dataState.Filters.MyCategory,
         dataState.Filters.ContractId,
         dataState.Filters.JointVentures
     ])

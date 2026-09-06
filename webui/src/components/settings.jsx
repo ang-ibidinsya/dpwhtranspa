@@ -87,7 +87,8 @@ export const Settings = () => {
                     Status: data.Status ? data.Status.map(x => parseInt(x.value)): [],
                     FundSource: data['Fund Source'] ? data['Fund Source'].map(x => parseInt(x.value)): [],
                     Contractor: data.Contractor ? data.Contractor.map(x => parseInt(x.value)): [],
-                    Category: data.Category ? data.Category.map(x => parseInt(x.value)): [],
+                    DpwhCategory: data['DPWH Category'] ? data['DPWH Category'].map(x => parseInt(x.value)): [],
+                    MyCategory: data['My Category'] ? data['My Category'].map(x => parseInt(x.value)): [],
                     ContractId: data['Contract Id'],
                     ProjectSearchOption: data.ProjectSearchOption,
                     JointVentures: data['Joint Ventures']?.value

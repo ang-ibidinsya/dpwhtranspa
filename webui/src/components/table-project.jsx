@@ -334,7 +334,8 @@ export const TableByProject = (props) => {
         console.log('[Project Table UseEffect]');
         //table.setColumnFilters(convertStateToTableFilter(dataState))
     }, [dataState.Filters.Project, dataState.Filters.Year, dataState.Filters.District, dataState.Filters.Region, 
-        dataState.Filters.Status, dataState.Filters.FundSource, dataState.Filters.Contractor, dataState.Filters.Category, dataState.Filters.ContractId,
+        dataState.Filters.Status, dataState.Filters.FundSource, dataState.Filters.Contractor, dataState.Filters.DpwhCategory, dataState.Filters.MyCategory,
+        dataState.Filters.ContractId,
         dataState.Filters.JointVentures])
 
     // Determine whether to show card (and how many columns) or table based on the browser width

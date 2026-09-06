@@ -219,9 +219,8 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
          
         // Stacked Bar Chart
         // We put all the stackedbarChart logic here and avoid doing the rendering inside the columnDef cell render because the react-tooltip has intermittent issues when user clicks Sort
-        //cellClass += ' tdCostBarFullWidth';        
-        
-        let {entityGroups, minCost, maxCost, categoryMaster, checkedStretch} = table.getState();
+        //cellClass += ' tdCostBarFullWidth';          
+        let {entityGroups, minCost, maxCost, myCategoryMaster, checkedStretch} = table.getState();
         const currEntity = row.getValue(entityType);
         const findEntity = entityGroups.find(grp => grp[entityType] === currEntity);
         if (!findEntity) {
@@ -230,8 +229,8 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
         }
         const categorySubTotalsTooltip = {
             dataType: 'category', 
-            items: findEntity.categorySubTotals,
-            categoryMaster: categoryMaster
+            items: findEntity.myCategorySubTotals,
+            categoryMaster: myCategoryMaster
         };            
 
         return <td key={cell.id} className={cellClass}>

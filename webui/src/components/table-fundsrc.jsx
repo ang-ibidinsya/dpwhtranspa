@@ -110,9 +110,10 @@ export const TableByFundSrc = (props) => {
         dataState.Filters.District, 
         dataState.Filters.Region,
         dataState.Filters.FundSource,
-        dataState.Filters.Category,
-        dataState.Filters.ContractId,
         dataState.Filters.Contractor,
+        dataState.Filters.DpwhCategory, 
+        dataState.Filters.MyCategory,
+        dataState.Filters.ContractId,
         dataState.Filters.JointVentures
     ])
 

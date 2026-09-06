@@ -16,8 +16,8 @@ import { CardContainerCategory } from './card-category';
 
 const convertStateToTableFilter = (dataState) => {
     let ret = [{id: 'subtotal', value: null}];// Add a dummy subtotal filter, so that its custom filter can filter out 0 values
-    if (dataState.Filters.Category?.length > 0) {
-        ret.push({id: 'category', value: dataState.Filters.Category});
+    if (dataState.Filters.DpwhCategory?.length > 0) {
+        ret.push({id: 'category', value: dataState.Filters.DpwhCategory});
     }
     return ret;
 }
@@ -110,7 +110,8 @@ export const TableByCategory = (props) => {
         dataState.Filters.Region,
         dataState.Filters.FundSource,
         dataState.Filters.Contractor,
-        dataState.Filters.Category,
+        dataState.Filters.DpwhCategory, 
+        dataState.Filters.MyCategory,
         dataState.Filters.ContractId,
         dataState.Filters.JointVentures
     ])
