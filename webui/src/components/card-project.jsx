@@ -22,7 +22,7 @@ const getMappedValue = (cellColId, cellRawValue, masterData, row) => {
         case 'cg':
             return getMasterDataValue(masterData, EntityTypes.category, cellRawValue);
         case 'mc':
-            return getMasterDataValue(masterData, EntityTypes.mycategory, cellRawValue);            
+            return getMasterDataValue(masterData, EntityTypes.myCategory, cellRawValue);            
         case 'p':
             return <div className="divCost" style={{width: '100%'}}>{formatMoney(cellRawValue)}</div>
         case 'ci':

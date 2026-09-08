@@ -22,6 +22,7 @@ import { mapYearColors, mapStatusColors, StackedBarChart, getCategoryColor, getS
 import { TableByFundSrc } from './table-fundsrc';
 import { TableByContractor } from './table-contractor';
 import { TableByCategory } from './table-category';
+import { TableByMyCategory } from './table-mycategory';
 import { categoryLabelMap } from '../controls/controlUtils';
 import {HAS_TOUCH} from '../util';
 
@@ -159,17 +160,18 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
         let cellClass = 'tdCostBar ';
         if (entityType === EntityTypes.district || entityType === EntityTypes.region 
             || entityType === EntityTypes.fundSource || entityType === EntityTypes.contractor
-            || entityType === EntityTypes.category
+            || entityType === EntityTypes.category || entityType === EntityTypes.myCategory
             || entityType === EntityTypes.year) {                
             // Stacked Bar Chart
             // We put all the stackedbarChart logic here and avoid doing the rendering inside the columnDef cell render because the react-tooltip has intermittent issues when user clicks Sort
-            if (entityType === EntityTypes.contractor || entityType === EntityTypes.district || entityType === EntityTypes.region || entityType === EntityTypes.fundSource || entityType === EntityTypes.category) {
+            if (entityType === EntityTypes.contractor || entityType === EntityTypes.district || entityType === EntityTypes.region 
+                || entityType === EntityTypes.fundSource || entityType === EntityTypes.category || entityType === EntityTypes.myCategory) {
                 cellClass = 'tdCostBarStandalone';
             }
             else {
                 cellClass += ' tdCostBarFullWidth';
             }
-            
+
             let {entityGroups, minCost, maxCost, checkedStretch} = table.getState();
             const currEntity = row.getValue(entityType);
             const findEntity = entityGroups.find(grp => grp[entityType] === currEntity);
@@ -252,7 +254,8 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
             if (entityType === EntityTypes.contractor) {
                 styles.width = `${1/9.0*100}%`
             }
-            if (entityType === EntityTypes.district || entityType === EntityTypes.fundSource || entityType === EntityTypes.region || entityType === EntityTypes.category) {
+            if (entityType === EntityTypes.district || entityType === EntityTypes.fundSource || entityType === EntityTypes.region 
+                || entityType === EntityTypes.category || entityType === EntityTypes.myCategory) {
                 //styles.width = `${1/6.0*100}%`
             }
         }
@@ -260,13 +263,14 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
             if (entityType === EntityTypes.contractor) {                
                 styles.width = `${2/9.0*100}%`
             }
-            if (entityType === EntityTypes.district || entityType === EntityTypes.fundSource || entityType === EntityTypes.region || entityType === EntityTypes.category) {
+            if (entityType === EntityTypes.district || entityType === EntityTypes.fundSource || entityType === EntityTypes.region 
+                || entityType === EntityTypes.category || entityType === EntityTypes.myCategory) {
                 //styles.width = `${1/6.0*100}%`
             }
         }
 
         if (entityType === EntityTypes.district || entityType === EntityTypes.region || entityType === EntityTypes.year 
-            || entityType === EntityTypes.fundSource || entityType === EntityTypes.category
+            || entityType === EntityTypes.fundSource || entityType === EntityTypes.category || entityType === EntityTypes.myCategory
         ) {
             //cellClass += ' tdNoWrap';
         }                
@@ -290,12 +294,21 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
                 </td>
     }
 
-    const prepareCategoryCellWithNoteTooltip = (cell, row) => {      
-        //let cellClass = 'tdTable tdNoWrap';  
+    const prepareCategoryCell = (cell, row) => {      
         let cellClass = 'tdTable';  
         const {masterData} = table.getState();
         const catVal = row.getValue('category');
         const catUserDefinedName = getMasterDataValue(masterData, EntityTypes.category, catVal)
+        return <td className={cellClass} key={`key-cat-${catVal}`}>
+                <span>{catUserDefinedName}</span>
+        </td>
+    }
+
+    const prepareMyCategoryCellWithNoteTooltip = (cell, row) => {
+        let cellClass = 'tdTable';  
+        const {masterData} = table.getState();
+        const catVal = row.getValue('myCategory');
+        const catUserDefinedName = getMasterDataValue(masterData, EntityTypes.myCategory, catVal)
         const catTipStr = categoryLabelMap[catUserDefinedName];
         const catTipObj = JSON.stringify({
             title: catUserDefinedName,
@@ -321,9 +334,11 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
             if (cellColId === 'CostBarCategory') {
                 return prepareCategoryBarCell(cell, row)
             }
-
             if (cellColId === 'category' && entityType === EntityTypes.category) {
-                return prepareCategoryCellWithNoteTooltip(cell, row)
+                return prepareCategoryCell(cell, row)
+            }
+            if (cellColId === 'myCategory' && entityType === EntityTypes.myCategory) {
+                return prepareMyCategoryCellWithNoteTooltip(cell, row)
             }
             return prepareNormalCell(cell);
         });
@@ -367,7 +382,8 @@ export const prepareHeader = (table, entityType) => {
             if (isSortable) {
                 thClassNames += ' thSortable'
             }            
-            const entitiesWithMultipleCostBars = [EntityTypes.contractor, EntityTypes.district, EntityTypes.region, EntityTypes.fundSource, EntityTypes.category];
+            const entitiesWithMultipleCostBars = [EntityTypes.contractor, EntityTypes.district, EntityTypes.region, 
+                EntityTypes.fundSource, EntityTypes.category, EntityTypes.myCategory];
             let colSpan = colHeader === 'Cost' && 
                                         (!entitiesWithMultipleCostBars.includes(entityType)) ? 
                                         2 : 1;            
@@ -599,6 +615,15 @@ export const TableBase = () => {
             {loadingMsg && <LoadingIndicator isOverlay={true} refTable={tableRef} msg={loadingMsg}/>}
             <div className="tableContainer" ref={tableRef}>
                 <TableByCategory dataState={dataState} setLoadingMsg={setLoadingMsg}/>
+            </div>
+        </>
+    }
+
+    if (dataState.Grouping === 'My Category') {
+        return <>
+            {loadingMsg && <LoadingIndicator isOverlay={true} refTable={tableRef} msg={loadingMsg}/>}
+            <div className="tableContainer" ref={tableRef}>
+                <TableByMyCategory dataState={dataState} setLoadingMsg={setLoadingMsg}/>
             </div>
         </>
     }

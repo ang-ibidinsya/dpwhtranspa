@@ -77,7 +77,7 @@ export const getMasterDataValue = (masterData, masterDataType, value) => {
         return masterData.CategoryMaster[value];
     }
 
-    if (masterDataType === EntityTypes.mycategory) {
+    if (masterDataType === EntityTypes.myCategory) {
         return masterData.MyCategoryMaster[value];
     }
 

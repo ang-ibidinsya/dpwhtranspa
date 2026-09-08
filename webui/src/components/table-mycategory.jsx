@@ -22,7 +22,7 @@ const convertStateToTableFilter = (dataState) => {
     return ret;
 }
 
-export const TableByCategory = (props) => {
+export const TableByMyCategory = (props) => {
     
     const [columnFilters, setColumnFilters] = useState([]);
     const [checkedStretch, setCheckedStretch] = useState(false);
@@ -32,20 +32,16 @@ export const TableByCategory = (props) => {
     }]);
     const {dataState, setLoadingMsg} = props;
     
-    console.log('[TableByCategory] render, dataState:', dataState);
+    console.log('[TableByMyCategory] render, dataState:', dataState);
 
-    const filteredCategoryGroups = dataState.FilteredData?.categoryGroups;
-    console.log('filteredCategoryGroups', filteredCategoryGroups);
+    const filteredMyCategoryGroups = dataState.FilteredData?.myCategoryGroups;
+    console.log('filteredMyCategoryGroups', filteredMyCategoryGroups);
 
     const columnDefs = [
         {
-            accessorKey: "category",
-            header: "Category",
+            accessorKey: "myCategory",
+            header: "My Category",
             filterFn: 'multiValueFilter',
-            // cell: ({ getValue, row, column, table }) => {
-            //     let {masterData} = table.getState();
-            //     return <div>{getMasterDataValue(masterData, EntityTypes.category, getValue())}</div>
-            // },
         },
         {
             accessorKey: "subtotal",
@@ -67,7 +63,7 @@ export const TableByCategory = (props) => {
     ];
 
     const table = useReactTable({
-        data: filteredCategoryGroups,
+        data: filteredMyCategoryGroups,
         columns: columnDefs,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -82,7 +78,7 @@ export const TableByCategory = (props) => {
         state: {
             sorting,
             columnFilters: columnFilters,
-            entityGroups: dataState.FilteredData.categoryGroups,
+            entityGroups: dataState.FilteredData.myCategoryGroups,
             maxCost: dataState.FilteredData.overallCategoryMaxCost,
             minCost: dataState.FilteredData.overallCategoryMinCost,
             masterData: dataState.MasterData,
@@ -123,7 +119,7 @@ export const TableByCategory = (props) => {
     // Determine whether to show card (and how many columns) or table based on the browser width
     const windowWidth = useWindowWidth();
     const cardLayoutMaxWidth = 680;
-    console.log(`[Table DPWH Category] windowWidth: ${windowWidth}`);
+    console.log(`[TableMyCategory] windowWidth: ${windowWidth}`);
         
     if (windowWidth> cardLayoutMaxWidth) {
         return <div className="tableContainer">
@@ -133,10 +129,10 @@ export const TableByCategory = (props) => {
             {preparePagninator(table)}
             <table className="tableBase">
                 <thead>
-                    {prepareHeader(table, EntityTypes.category)}
+                    {prepareHeader(table, EntityTypes.myCategory)}
                 </thead>
                 <tbody>
-                    {prepareBody(table, EntityTypes.category, null, dataState.MasterData)}
+                    {prepareBody(table, EntityTypes.myCategory, null, dataState.MasterData)}
                 </tbody>
             </table>
         </div>;

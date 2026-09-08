@@ -9,7 +9,7 @@ export const EntityTypes = {
     fundSource: 'fundSource',
     contractor: 'contractor',
     category: 'category',
-    mycategory: 'mycategory',
+    myCategory: 'myCategory',
 }
 
 export const ColumnSizes = {
