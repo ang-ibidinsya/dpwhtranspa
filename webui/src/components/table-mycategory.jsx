@@ -12,7 +12,7 @@ import {prepareBody, prepareHeader, preparePagninator, showYearLegends, showGran
 import {formatMoney, getMasterDataValue} from '../util';
 import {EntityTypes} from '../enums';
 import {useWindowWidth} from '../hooks/useWindowWidth';
-import { CardContainerCategory } from './card-category';
+import { CardContainerMyCategory } from './card-mycategory';
 
 const convertStateToTableFilter = (dataState) => {
     let ret = [{id: 'subtotal', value: null}];// Add a dummy subtotal filter, so that its custom filter can filter out 0 values
@@ -138,7 +138,7 @@ export const TableByMyCategory = (props) => {
         </div>;
     }
     else {
-        return <CardContainerCategory table={table} 
+        return <CardContainerMyCategory table={table} 
                             masterData={dataState.MasterData}
                             windowWidth={windowWidth}
                             grandTotal={dataState.FilteredData.grandTotal}
