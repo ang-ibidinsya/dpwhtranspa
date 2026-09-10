@@ -19,23 +19,21 @@ function App() {
 
     // Initial loading activities
     useEffect(() => {
+        const fetchGzippedJson = async(url) => {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Failed to fetch ${url}`);
+
+            const decompressedStream = response.body.pipeThrough(new DecompressionStream('gzip'));
+            return await new Response(decompressedStream).json();
+        };
+
         const fetchData = async() => {
             console.log('[App] useEffect start...');
             try {
-                const fetchResponseMaster = await fetch('./categorizedMasterData.gz');
-                if (!fetchResponseMaster.ok) {
-                    console.error('Unable to fetch master data!');
-                    return;
-                }
-                const fetchResponseJson = await fetch('./categorizedContracts.gz');
-                if (!fetchResponseJson.ok) {
-                    console.error('Unable to fetch contracts data!');
-                    return;
-                }
-                const constractsJson = await fetchResponseJson.json(); // Already decompressed
-                const masterDataJson = await fetchResponseMaster.json(); // Already decompressed
+                const contractsJson = await fetchGzippedJson('./categorizedContractsgz');
+                const masterDataJson = await fetchGzippedJson('./categorizedMasterDatagz');
                 console.log(`finished fetching data: ${performance.now() - startTime}ms`);
-                dispatch(setInitialData({constractsJson, masterDataJson}));
+                dispatch(setInitialData({contractsJson, masterDataJson}));
             }
             catch(ex) {
                 console.error(`[App] fetchData() error: ${ex}`);

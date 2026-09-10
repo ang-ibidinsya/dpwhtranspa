@@ -408,7 +408,7 @@ const dataSlice = createSlice({
         },
         setInitialData: (state, action) => {
             console.log('[settings reducer][setInitialData] action:', action);
-            Object.assign(state.AllData, action.payload.constractsJson);
+            Object.assign(state.AllData, action.payload.contractsJson);
             Object.assign(state.MasterData, action.payload.masterDataJson);
             Object.assign(state.FilteredData, mapAndFilterData(state.AllData, null))
             fuseSearch.setFuse(state.AllData);
