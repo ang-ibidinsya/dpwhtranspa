@@ -614,7 +614,7 @@ public class Categorizer
         if (descToLower.Contains("water supply") || descToLower.Contains("water system")
            || descToLower.Contains("waterworks") || descToLower.Contains("watersystem")
            || descToLower.Contains("solar system") || descToLower.Contains("solar swater")
-           || descToLower.Contains("rainwater collect")
+           || descToLower.Contains("rainwater collect") || descToLower.Contains("sewage")
         )
         {            
             contract.Tags.Add("water supply");
