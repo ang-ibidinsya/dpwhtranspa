@@ -163,6 +163,11 @@ public class DataManager
                     ushort? programmeIdx = FindIdx(_masterProgramme, origContract.programName);
                     ushort? provinceIdx = FindIdx(_masterProvince, origContract.location.province);
                     ushort? regionIdx = FindIdx(_masterRegion, origContract.location.region);
+                    if (!regionIdx.HasValue && string.IsNullOrEmpty(origContract.location.region))
+                    {
+                        origContract.location.region = "Unknown";
+                        regionIdx = FindIdx(_masterRegion, origContract.location.region);
+                    }
                     ushort? srcFundsIdx = FindIdx(_masterSrcOfFunds, origContract.sourceOfFunds);
                     ushort? statusIdx = FindIdx(_masterStatus, origContract.status);
 
@@ -230,6 +235,14 @@ public class DataManager
             // break;
         }
 
+#if true
+        // Categorize the data
+        PrepareMasterData();
+        Categorizer cat = new Categorizer();
+        var compactContractsSorted = compactContracts.OrderByDescending(x => x.Cost);
+        cat.CategorizeByObject(_masterData, compactContractsSorted);
+
+#else
         // Write to file
         var compactContractsSorted = compactContracts.OrderByDescending(x => x.Cost);
         string compactJson = JsonSerializer.Serialize(compactContractsSorted);        
@@ -252,6 +265,7 @@ public class DataManager
         {
             writer.Write(masterDataJson);
         }
+#endif
 
         Console.WriteLine($"[PrepareData()] Processed {compactContracts.Count} contract. Finished writing to compactJson.json");
 

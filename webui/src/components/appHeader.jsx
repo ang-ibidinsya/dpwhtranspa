@@ -9,7 +9,7 @@ export const AppHeader = () => {
         <div className="titleLine topLine">
             <img src="./transpa_40.png"  className="appIcon"/>
             <span className="mainTitle">DPWH Transparency Infra Projects</span>
-            <div className="subtitle">246,000 Projects&nbsp;&nbsp;|&nbsp;&nbsp;2016 to Nov 30, 2025</div>            
+            <div className="subtitle">264,979 Projects&nbsp;&nbsp;|&nbsp;&nbsp;2016 to Sept 2026</div>
             <div className="subtitle">&nbsp;&nbsp;
                 <div data-tooltip-id='generic-tooltip'
                 data-tooltip-content={getDpwhTooltipMessage()}

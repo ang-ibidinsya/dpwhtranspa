@@ -38,6 +38,7 @@ export const mapYearColors = {
     2023: '#F1C40F', //Yellow
     2024: '#9B59B6', //Purple
     2025: '#6B3A2C', //Coffee
+    2026: '#FF007F', // Hot Magenta
 }
 
 // Hardcode for now

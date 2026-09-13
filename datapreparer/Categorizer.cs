@@ -8,7 +8,7 @@ public class Categorizer
     private string _contractsJsonFilePath;
     private string _masterDataJsonFilePath;
     private MasterData _masterData;
-    private List<CompactContract> _contracts;
+    private IEnumerable<CompactContract> _contracts;
 
     private readonly Dictionary<string, string> manualCategories = new Dictionary<string, string>() {
         {"20O00013", "building"}, //CONSTRUCTION OF 9TH POST ENGINEER DETACHMENT BUILDING WITH MOTORPOOL, FORT ANDRES BONIFACIO, TAGUIG CITY
@@ -37,14 +37,15 @@ public class Categorizer
         {"17GA0060", "bridge"}, //CONST. OF NEW PERMANENT BRIDGE-PROVISION/INSTALLATION OF ROADWAY LIGHTING(BRIDGE APPROACHES)OF KALIB
     };
 
-    public Categorizer(string masterJson, string contractsJson)
+    public Categorizer()
     {
-        this._contractsJsonFilePath = contractsJson;
-        this._masterDataJsonFilePath = masterJson;
     }
 
-    public void Start()
+    public void CategorizeByFilePath(string masterJsonFilePath, string contractsJsonFilePath)
     {
+        this._contractsJsonFilePath = contractsJsonFilePath;
+        this._masterDataJsonFilePath = masterJsonFilePath;
+
         if (!File.Exists(_masterDataJsonFilePath) || !File.Exists(_contractsJsonFilePath))
         {
             Console.WriteLine("[Categorizer] Invalid MasterData or Contracts File Paths");
@@ -56,8 +57,20 @@ public class Categorizer
 
         // Deserialize contracts
         _masterData = JsonSerializer.Deserialize<MasterData>(masterDataString);
-        _contracts = JsonSerializer.Deserialize<List<CompactContract>>(contractsString);
+        _contracts = JsonSerializer.Deserialize<IEnumerable<CompactContract>>(contractsString);
 
+        StartCategorization();
+    }
+
+    public void CategorizeByObject(MasterData masterData, IEnumerable<CompactContract> contracts)
+    {
+        _masterData = masterData;
+        _contracts = contracts;
+        StartCategorization();
+    }
+
+    private void StartCategorization()
+    {
         Dictionary<string, int> dictTagDict = new Dictionary<string, int>(); // For debugging only
         foreach(CompactContract contract in _contracts)
         {
@@ -80,7 +93,7 @@ public class Categorizer
 
         // Log statistics
         int countWithLabel = _contracts.Count(c => !c.Tags.Contains("uncategorized"));
-        Console.WriteLine($"{countWithLabel} / {_contracts.Count} has been categorized ({countWithLabel*100.0/_contracts.Count:0.00}%)");
+        Console.WriteLine($"{countWithLabel} / {_contracts.Count()} has been categorized ({countWithLabel*100.0/_contracts.Count():0.00}%)");
         foreach(var kvp in dictTagDict)
         {
             Console.WriteLine($"[{kvp.Key}]\t\t\t-- {kvp.Value}");
@@ -103,10 +116,10 @@ public class Categorizer
             Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         };
         
-        contractsString = JsonSerializer.Serialize(_contracts, options);
-        masterDataString = JsonSerializer.Serialize(_masterData, options);
-        Utils.GzipData(contractsString, "categorizedContracts.gz");
-        Utils.GzipData(masterDataString, "categorizedMasterData.gz");
+        string contractsString = JsonSerializer.Serialize(_contracts, options);
+        string masterDataString = JsonSerializer.Serialize(_masterData, options);
+        Utils.GzipData(contractsString, "categorizedContractsgz");
+        Utils.GzipData(masterDataString, "categorizedMasterDatagz");
         #endif
     }
 
