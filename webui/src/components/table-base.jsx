@@ -318,7 +318,7 @@ export const prepareBody = (table, entityType, secondaryGroupingState, masterDat
                 <span>{catUserDefinedName}</span>
                 <span data-tooltip-id='generic-tooltip'
                     data-tooltip-content={catTipObj}
-                    style={{cursor: 'pointer'}}> 🛈</span>
+                    style={{cursor: 'pointer', fontWeight: 800}}> ⓘ</span>
         </td>
     }
 

@@ -67,7 +67,7 @@ export const TableByContractor = (props) => {
             header: <span><span 
                 data-tooltip-id='generic-tooltip'
                 data-tooltip-content={getContractorFilterTooltipMessage()}
-                style={{fontWeight: '400', cursor: 'pointer'}}>🛈 </span>Contractor</span>,
+                style={{fontWeight: '800', cursor: 'pointer'}}>ⓘ </span>Contractor</span>,
             filterFn: 'multiValueFilter',
             cell: ({ getValue, row, column, table }) => {
                 let {masterData} = table.getState();
@@ -79,7 +79,7 @@ export const TableByContractor = (props) => {
             header: <span><span 
                 data-tooltip-id='generic-tooltip'
                 data-tooltip-content={getContractorCostTooltipMessage()}
-                style={{fontWeight: '400', cursor: 'pointer'}}>🛈 </span>Cost</span>,
+                style={{fontWeight: '800', cursor: 'pointer'}}>ⓘ </span>Cost</span>,
             filterFn: 'greaterThan0',
             cell: ({ getValue, row, column, table }) => {
                 return <div className="divCost">{formatMoney(getValue())}</div>

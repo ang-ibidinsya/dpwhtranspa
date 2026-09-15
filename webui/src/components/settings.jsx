@@ -190,7 +190,7 @@ export const Settings = () => {
                 <span className='fieldInfo'
                     data-tooltip-id='generic-tooltip'
                     data-tooltip-content={getDistrictTooltipMessage()}
-                    style={{cursor: 'pointer'}}> 🛈:</span>
+                    style={{cursor: 'pointer', fontWeight: 800}}> ⓘ :</span>
             </div>
         }
 
@@ -200,7 +200,7 @@ export const Settings = () => {
                 <span className='fieldInfo'
                     data-tooltip-id='generic-tooltip'
                     data-tooltip-content={getProjectTooltipMessage()}
-                    style={{cursor: 'pointer'}}> 🛈 :</span>
+                    style={{cursor: 'pointer', fontWeight: 800}}> ⓘ :</span>
             </div>
         }
 
@@ -210,7 +210,7 @@ export const Settings = () => {
                 <span className='fieldInfo'
                     data-tooltip-id='generic-tooltip'
                     data-tooltip-content={getDpwhCategoryTooltipMessage()}
-                    style={{cursor: 'pointer'}}> 🛈 :</span>
+                    style={{cursor: 'pointer', fontWeight: 800}}> ⓘ :</span>
             </div>
         }
         
