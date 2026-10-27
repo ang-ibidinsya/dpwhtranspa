@@ -143,21 +143,6 @@ export const TableByContractor = (props) => {
         }
     })
 
-    useEffect(() => {
-        table.setColumnFilters(convertStateToTableFilter(dataState));
-    }, [
-        dataState.Filters.Project, 
-        dataState.Filters.Year, 
-        dataState.Filters.District, 
-        dataState.Filters.Region,
-        dataState.Filters.FundSource,
-        dataState.Filters.Contractor,
-        dataState.Filters.DpwhCategory, 
-        dataState.Filters.MyCategory,
-        dataState.Filters.ContractId,
-        dataState.Filters.JointVentures
-    ])
-
     const handleCheckboxChange = (arg) => {
         setCheckedStretch(arg.target.checked); // Toggle the checkbox value
       };

@@ -87,21 +87,6 @@ export const TableByYear = (props) => {
         }
     })
 
-    useEffect(() => {
-        table.setColumnFilters(convertStateToTableFilter(dataState));
-    }, [
-        dataState.Filters.Project, 
-        dataState.Filters.Year, 
-        dataState.Filters.District, 
-        dataState.Filters.Region,
-        dataState.Filters.FundSource,
-        dataState.Filters.Contractor,
-        dataState.Filters.DpwhCategory, 
-        dataState.Filters.MyCategory,
-        dataState.Filters.ContractId,
-        dataState.Filters.JointVentures
-    ])
-
     // Determine whether to show card (and how many columns) or table based on the browser width
     const windowWidth = useWindowWidth();
     const cardLayoutMaxWidth = 600;
